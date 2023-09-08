@@ -17,10 +17,10 @@ public class OrderItem {
     private Long id;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id", nullable = false)
     private Order_ order;
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.ALL)

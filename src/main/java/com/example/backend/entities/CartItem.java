@@ -18,7 +18,6 @@ public class CartItem {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;

@@ -22,7 +22,7 @@ public class Cart {
     @EqualsAndHashCode.Exclude
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User_ user;
 
 
     @ToString.Exclude

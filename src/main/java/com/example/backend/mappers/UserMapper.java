@@ -2,7 +2,7 @@ package com.example.backend.mappers;
 
 import com.example.backend.dtos.SignUpDto;
 import com.example.backend.dtos.UserDto;
-import com.example.backend.entities.User;
+import com.example.backend.entities.User_;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 /*
@@ -12,9 +12,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserDto toUserDto(User user);
+    UserDto toUserDto(User_ user);
 
     @Mapping(target = "password", ignore = true)
-    User signUpToUser(SignUpDto signUpDto);
+    User_ signUpToUser(SignUpDto signUpDto);
 
 }

@@ -22,7 +22,7 @@ public class Order_ {
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User_ user;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

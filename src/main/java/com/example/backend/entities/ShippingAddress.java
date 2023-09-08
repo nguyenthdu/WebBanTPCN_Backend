@@ -24,5 +24,5 @@ public class ShippingAddress {
     @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User_ user;
 }
