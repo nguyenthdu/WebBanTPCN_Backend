@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
-                        //.anyRequest().authenticated()); yêu cầu xác thực
+//                        .anyRequest().authenticated()); // yêu cầu xác thực
                 .anyRequest().permitAll());// cho phép tất cả
         return http.build();
     }

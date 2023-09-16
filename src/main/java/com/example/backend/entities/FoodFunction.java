@@ -29,10 +29,11 @@ public class FoodFunction {
     private List<String> uses;
     private String packingWay;
     @ElementCollection
-    private List<String> userObject ;
+    private List<String> userObject;
     private String dosageForm;
     private String placeOfManufacture;
     private int expiryDate;
+    private int name;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "manufacturer_id", nullable = false)

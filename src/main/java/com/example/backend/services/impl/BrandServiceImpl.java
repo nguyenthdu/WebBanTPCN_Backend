@@ -1,5 +1,6 @@
 package com.example.backend.services.impl;
 
+import com.example.backend.controllers.BrandController;
 import com.example.backend.entities.Brand;
 
 import com.example.backend.repositories.BrandRepository;
@@ -28,5 +29,15 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Brand findBrandById(Long idBrand) {
         return brandRepository.findBrandById(idBrand);
+    }
+
+    @Override
+    public void deleteBrandById(Long idBrand) {
+        brandRepository.deleteById(idBrand);
+    }
+
+    @Override
+    public Brand updateBrand(Brand brand) {
+        return brandRepository.save(brand);
     }
 }
