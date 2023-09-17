@@ -29,4 +29,14 @@ public class BrandServiceImpl implements BrandService {
     public Brand findBrandById(Long idBrand) {
         return brandRepository.findBrandById(idBrand);
     }
+
+    @Override
+    public void deleteBrandById(Long idBrand) {
+        brandRepository.deleteById(idBrand);
+    }
+
+    @Override
+    public Brand updateBrand(Brand brand) {
+        return brandRepository.save(brand);
+    }
 }

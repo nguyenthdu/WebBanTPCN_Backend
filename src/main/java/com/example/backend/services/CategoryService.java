@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.entities.Brand;
 import com.example.backend.entities.Category;
 import com.example.backend.entities.FoodFunction;
 
@@ -12,4 +13,7 @@ public interface CategoryService {
     Category findCategoryById(Long idCategory);
     // in ra tất cả các food function có trong 1 category
     Set<FoodFunction> getAllFoodFunctionByCategory(Category category);
+
+    void deleteCategoryById(Long idCategory);
+    Category updateCategory(Category category);
 }

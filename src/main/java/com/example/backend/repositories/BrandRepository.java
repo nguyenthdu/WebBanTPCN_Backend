@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface BrandRepository extends JpaRepository<Brand, Long> {
     Brand findBrandByNameBrand(String nameBrand);
     Brand findBrandById(Long idBrand);
+
 }

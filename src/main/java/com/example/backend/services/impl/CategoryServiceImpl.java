@@ -1,5 +1,6 @@
 package com.example.backend.services.impl;
 
+import com.example.backend.entities.Brand;
 import com.example.backend.entities.Category;
 import com.example.backend.entities.FoodFunction;
 import com.example.backend.repositories.CategoryRepository;
@@ -35,5 +36,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Set<FoodFunction> getAllFoodFunctionByCategory(Category category) {
         return category.getFoodFunctions();
+    }
+
+    @Override
+    public void deleteCategoryById(Long idCategory) {
+        categoryRepository.deleteById(idCategory);
+    }
+    @Override
+    public Category updateCategory(Category category) {
+        return categoryRepository.save(category);
     }
 }
