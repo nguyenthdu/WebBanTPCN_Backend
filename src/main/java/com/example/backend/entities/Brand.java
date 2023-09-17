@@ -27,4 +27,6 @@ public class Brand {
     @Column(name = "food_function")
     @JsonIgnore
     private Set<FoodFunction> foodFunctions = new HashSet<>();
+
+
 }

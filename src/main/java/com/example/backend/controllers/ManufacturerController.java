@@ -1,5 +1,6 @@
 package com.example.backend.controllers;
 
+import com.example.backend.entities.Category;
 import com.example.backend.entities.Manufacturer;
 import com.example.backend.repositories.ManufacturerRepository;
 import com.example.backend.services.ManufacturerService;
@@ -30,5 +31,32 @@ public class ManufacturerController {
         }
         manufacturerService.createManufacturer(manufacturer);
         return ResponseEntity.ok("Create Manufacturer Successfully");
+    }
+
+    //TODO: get Manufacturer by Manufacturer name
+    @GetMapping("/findManufacturerByManufacturerName/{nameManufacturer}")
+    Manufacturer findManufacturerByManufacturerName(@PathVariable String nameManufacturer) {
+        return manufacturerRepository.findManufacturerByNameManufacturer(nameManufacturer);
+    }
+
+    //TODO: update Manufacturer
+    @PutMapping("/updateManufacturer")
+    ResponseEntity<String> updateManufacturer(@RequestBody Manufacturer manufacturer) {
+        if (manufacturerService.findManufacturerById(manufacturer.getId()) == null) {
+            return ResponseEntity.badRequest().body("Id Manufacturer is not existed");
+        }
+
+        manufacturerService.updateManufacturer(manufacturer);
+        return ResponseEntity.ok("Update Manufacturer Successfully");
+    }
+
+    //TODO: delete Manufacturer by id
+    @DeleteMapping("/deleteManufacturerById/{idManufacturer}")
+    ResponseEntity<String> deleteManufacturerById(@PathVariable Long idManufacturer) {
+        if (manufacturerService.findManufacturerById(idManufacturer) == null) {
+            return ResponseEntity.badRequest().body("Id Manufacturer is not existed");
+        }
+        manufacturerService.deleteManufacturerById(idManufacturer);
+        return ResponseEntity.ok("Delete Manufacturer Successfully");
     }
 }

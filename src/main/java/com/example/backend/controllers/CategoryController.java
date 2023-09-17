@@ -1,5 +1,6 @@
 package com.example.backend.controllers;
 
+import com.example.backend.entities.Brand;
 import com.example.backend.entities.Category;
 import com.example.backend.entities.FoodFunction;
 import com.example.backend.repositories.CategoryRepository;
@@ -42,5 +43,32 @@ private CategoryRepository categoryRepository;
         }
 
         return ResponseEntity.ok(categoryService.getAllFoodFunctionByCategory(category));
+    }
+
+    //TODO: get Category by Category name
+    @GetMapping("/getCategoryByCategoryName/{nameCategory}")
+    Category getCategoryByCategoryName(@PathVariable String nameCategory) {
+        return categoryRepository.findCategoryBynameCategory(nameCategory);
+    }
+
+    //TODO: update category
+    @PutMapping("/updateCategory")
+    ResponseEntity<String> updateCategory(@RequestBody Category category) {
+        if (categoryService.findCategoryById(category.getId()) == null) {
+            return ResponseEntity.badRequest().body("Id Category is not existed");
+        }
+
+        categoryService.updateCategory(category);
+        return ResponseEntity.ok("Update Category Successfully");
+    }
+
+    //TODO: delete category by id
+    @DeleteMapping("/deleteCategoryById/{idCategory}")
+    ResponseEntity<String> deleteCategoryById(@PathVariable Long idCategory) {
+        if (categoryService.findCategoryById(idCategory) == null) {
+            return ResponseEntity.badRequest().body("Id Category is not existed");
+        }
+        categoryService.deleteCategoryById(idCategory);
+        return ResponseEntity.ok("Delete Category Successfully");
     }
 }
