@@ -34,4 +34,5 @@ public class BrandController {
         brandService.createBrand(brand);
         return ResponseEntity.ok("Create Brand Successfully");
     }
+
 }

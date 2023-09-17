@@ -6,7 +6,7 @@ import com.example.backend.repositories.CategoryRepository;
 import com.example.backend.services.CategoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 import java.util.Set;
 
 @Service

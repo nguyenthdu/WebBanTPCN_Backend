@@ -22,15 +22,12 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
+import java.util.*;
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/foodFunctions")
 public class FoodFunctionController {
-  private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
 
     @Autowired
     private FoodFunctionRepository foodFunctionRepository;
@@ -47,7 +44,6 @@ public class FoodFunctionController {
 
     //TODO: create food function
     @PostMapping("/createFoodFunction")
-   // @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createFoodFunction(@RequestBody FoodFunction foodFunction) {
         FoodFunction foodFunc = new FoodFunction();
         foodFunc.setNameFood(foodFunction.getNameFood());
@@ -77,70 +73,5 @@ public class FoodFunctionController {
         foodFunctionService.createFoodFunction(foodFunction);
         return ResponseEntity.ok("Create Food Function Successfully");
     }
-//    public ResponseEntity<String> createFoodFunction(
-//         @RequestParam String nameFood,
-//            @RequestParam String description,
-//            @RequestParam double price,
-//            @RequestParam MultipartFile[] image,
-//            @RequestParam String[] ingredients,
-//            @RequestParam String[] uses,
-//            @RequestParam String packingWay,
-//            @RequestParam String[] userObject,
-//            @RequestParam String dosageForm,
-//            @RequestParam String placeOfManufacture,
-//            @RequestParam int expiryDate,
-//            @RequestParam Long manufacturerId,
-//            @RequestParam Long brandId,
-//            @RequestParam Long categoryId
-//
-//    ) throws IOException {
-//Path staticPath = Paths.get("static");
-//        Path imagePath = Paths.get("images");
-//        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
-//            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
-//        }
-//        //Lấy tất cả các file ảnh được gửi từ client
-//        List<MultipartFile> multipartFiles = Arrays.asList(image);
-//        //Lưu các file ảnh vào thư mục static/images
-//        for (MultipartFile multipartFile : multipartFiles) {
-//            String fileName = multipartFile.getOriginalFilename();
-//            OutputStream outputStream = Files.newOutputStream(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath).resolve(fileName));
-//            outputStream.write(multipartFile.getBytes());
-//            outputStream.close();
-//        }
-//        FoodFunction foodFunction = new FoodFunction();
-//        foodFunction.setNameFood(nameFood);
-//        if (foodFunctionService.findFoodFunctionByNameFood(foodFunction.getNameFood()) != null) {
-//            return ResponseEntity.badRequest().body("Name Food Function is required");
-//        }
-//        foodFunction.setDescription(description);
-//        foodFunction.setPrice(price);
-//        //Lưu path của các file ảnh vào database
-//        List<String> images = multipartFiles.stream().map(multipartFile -> "/images/" + multipartFile.getOriginalFilename()).toList();
-//        foodFunction.setImages(images);
-//        foodFunction.setIngredients(Arrays.asList(ingredients));
-//        foodFunction.setUses(Arrays.asList(uses));
-//        foodFunction.setPackingWay(packingWay);
-//        foodFunction.setUserObject(Arrays.asList(userObject));
-//        foodFunction.setDosageForm(dosageForm);
-//        foodFunction.setPlaceOfManufacture(placeOfManufacture);
-//        foodFunction.setExpiryDate(expiryDate);
-//
-//        // Lấy thông tin Manufacturer, Brand và Category từ dữ liệu được gửi từ client
-//        Manufacturer manufacturer = manufacturerService.findManufacturerById(manufacturerId);
-//        Brand brand = brandService.findBrandById(brandId);
-//        Category category = categoryService.findCategoryById(categoryId);
-//
-//        foodFunction.setManufacturer(manufacturer);
-//        foodFunction.setBrand(brand);
-//        foodFunction.setCategory(category);
-//
-//
-//        foodFunctionService.createFoodFunction(foodFunction);
-//        return ResponseEntity.ok("Create Food Function Successfully");
-//
-//    }
-
-
 
 }

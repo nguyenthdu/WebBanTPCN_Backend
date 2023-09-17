@@ -31,4 +31,5 @@ public class ManufacturerController {
         manufacturerService.createManufacturer(manufacturer);
         return ResponseEntity.ok("Create Manufacturer Successfully");
     }
+
 }
