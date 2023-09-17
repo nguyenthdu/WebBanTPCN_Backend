@@ -24,10 +24,21 @@ public class BrandController {
         return brandRepository.findAll();
     }
 
+    //TODO: get brand by name brand
+    @GetMapping("/getBrandByNameBrand/{nameBrand}")
+    Brand getBrandByNameBrand(@PathVariable String nameBrand) {
+        return brandRepository.findBrandByNameBrand(nameBrand);
+    }
+
+    //TODO: get brand by id
+    @GetMapping("/getBrandById/{idBrand}")
+    Brand getBrandById(@PathVariable Long idBrand) {
+        return brandRepository.findBrandById(idBrand);
+    }
+
     //TODO: create brand
     @PostMapping("/createBrand")
     ResponseEntity<String> createBrand(@RequestBody Brand brand) {
-
         if (brandService.findBrandByNameBrand(brand.getNameBrand()) != null) {
             return ResponseEntity.badRequest().body("Name Brand is required");
         }
@@ -35,4 +46,26 @@ public class BrandController {
         return ResponseEntity.ok("Create Brand Successfully");
     }
 
+<<<<<<< HEAD
+=======
+    //TODO: update brand
+    @PutMapping("/updateBrand")
+    ResponseEntity<String> updateBrand(@RequestBody Brand brand) {
+        if (brandService.findBrandById(brand.getId()) == null) {
+            return ResponseEntity.badRequest().body("Id Brand is not existed");
+        }
+        brandService.updateBrand(brand);
+        return ResponseEntity.ok("Update Brand Successfully");
+    }
+
+    //TODO: delete brand by id
+    @DeleteMapping("/deleteBrandById/{idBrand}")
+    ResponseEntity<String> deleteBrandById(@PathVariable Long idBrand) {
+        if (brandService.findBrandById(idBrand) == null) {
+            return ResponseEntity.badRequest().body("Id Brand is not existed");
+        }
+        brandService.deleteBrandById(idBrand);
+        return ResponseEntity.ok("Delete Brand Successfully");
+    }
+>>>>>>> 29470ea1212cb64ce8a5be2cc3ba8cbe147e5bc1
 }

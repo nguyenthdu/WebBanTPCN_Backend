@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.entities.Brand;
 import com.example.backend.entities.Manufacturer;
 
 public interface ManufacturerService {
@@ -7,4 +8,6 @@ public interface ManufacturerService {
     Manufacturer findManufacturerByNameManufacturer(String nameManufacturer);
     Manufacturer findManufacturerById(Long idManufacturer);
 
+    void deleteManufacturerById(Long idManufacturer);
+    Manufacturer updateManufacturer(Manufacturer manufacturer);
 }

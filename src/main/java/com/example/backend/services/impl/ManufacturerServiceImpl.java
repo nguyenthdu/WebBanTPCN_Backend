@@ -1,5 +1,6 @@
 package com.example.backend.services.impl;
 
+import com.example.backend.entities.Brand;
 import com.example.backend.entities.Manufacturer;
 import com.example.backend.repositories.ManufacturerRepository;
 import com.example.backend.services.ManufacturerService;
@@ -29,5 +30,15 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     @Override
     public Manufacturer findManufacturerById(Long idManufacturer) {
         return manufacturerRepository.findManufacturerById(idManufacturer);
+    }
+
+    @Override
+    public void deleteManufacturerById(Long idManufacturer) {
+       manufacturerRepository.deleteById(idManufacturer);
+    }
+
+    @Override
+    public Manufacturer updateManufacturer(Manufacturer manufacturer ) {
+        return manufacturerRepository.save(manufacturer);
     }
 }

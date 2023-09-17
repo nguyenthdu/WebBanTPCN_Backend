@@ -7,4 +7,6 @@ public interface BrandService {
     Brand createBrand(Brand brand);
     Brand findBrandByNameBrand(String nameBrand);
     Brand findBrandById(Long idBrand);
+    void deleteBrandById(Long idBrand);
+    Brand updateBrand(Brand brand);
 }
