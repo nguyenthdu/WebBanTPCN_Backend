@@ -33,8 +33,6 @@ public class ManufacturerController {
         return ResponseEntity.ok("Create Manufacturer Successfully");
     }
 
-<<<<<<< HEAD
-=======
     //TODO: get Manufacturer by Manufacturer name
     @GetMapping("/findManufacturerByManufacturerName/{nameManufacturer}")
     Manufacturer findManufacturerByManufacturerName(@PathVariable String nameManufacturer) {
@@ -61,5 +59,5 @@ public class ManufacturerController {
         manufacturerService.deleteManufacturerById(idManufacturer);
         return ResponseEntity.ok("Delete Manufacturer Successfully");
     }
->>>>>>> 29470ea1212cb64ce8a5be2cc3ba8cbe147e5bc1
+
 }

@@ -26,7 +26,5 @@ public class ShippingAddress {
     @JoinColumn(name = "user_id", nullable = false)
     private User_ user;
 
-    public Long getId() {
-        return id;
-    }
+
 }
