@@ -1,5 +1,6 @@
 package com.example.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,6 @@ public class User_ {
     private Long id;
 
     private String firstName;
-
     private String lastName;
     private String phone;
     private String email;
@@ -30,6 +30,7 @@ public class User_ {
     private String username;
 
     private String password;
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<ShippingAddress> shippingAddresses;
     @OneToOne(mappedBy = "user")
