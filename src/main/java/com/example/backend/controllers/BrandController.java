@@ -46,6 +46,7 @@ public class BrandController {
         return ResponseEntity.ok("Create Brand Successfully");
     }
 
+
     //TODO: update brand
     @PutMapping("/updateBrand")
     ResponseEntity<String> updateBrand(@RequestBody Brand brand) {
@@ -65,4 +66,5 @@ public class BrandController {
         brandService.deleteBrandById(idBrand);
         return ResponseEntity.ok("Delete Brand Successfully");
     }
+
 }
