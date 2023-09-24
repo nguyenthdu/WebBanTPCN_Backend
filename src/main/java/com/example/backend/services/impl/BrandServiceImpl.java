@@ -1,5 +1,6 @@
 package com.example.backend.services.impl;
 
+import com.example.backend.controllers.BrandController;
 import com.example.backend.entities.Brand;
 
 import com.example.backend.repositories.BrandRepository;
