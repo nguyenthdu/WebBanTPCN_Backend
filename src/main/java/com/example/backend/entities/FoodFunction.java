@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -18,18 +18,23 @@ public class FoodFunction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nameFood;
+    //kiểu dữ liệu là text
+    @Column(columnDefinition = "text")
     private String description;
     private double price;
     @Lob
     @Column(name = "images", columnDefinition = "mediumblob")
     private byte[] images;
-    @ElementCollection
-    private List<String> ingredients;
-    @ElementCollection
-    private List<String> uses;
+    @ManyToMany
+    @JoinColumn(name = "ingredient_id", nullable = false)
+    private Set<Ingredients> ingredients;
+    @ManyToMany
+    @JoinColumn(name = "uses_id", nullable = false)
+    private Set<Uses> uses;
     private String packingWay;
-    @ElementCollection
-    private List<String> userObject;
+    @ManyToMany(cascade = CascadeType.REMOVE)
+   @JoinColumn(name = "user_object_id", nullable = false)
+    private Set<UserObject> userObjects;
     private String dosageForm;
     private String placeOfManufacture;
     private int expiryDate;

@@ -27,7 +27,20 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
         return foodFunctionRepository.findFoodFunctionByNameFood(nameFoodFunction);
     }
 
+    @Override
+    public FoodFunction findFoodFunctionById(Long idFoodFunction) {
+        return foodFunctionRepository.findFoodFunctionById(idFoodFunction);
+    }
 
+    @Override
+    public void deleteFoodFunctionById(Long idFoodFunction) {
+        foodFunctionRepository.deleteById(idFoodFunction);
+    }
+
+    @Override
+    public FoodFunction updateFoodFunction(FoodFunction foodFunction) {
+        return foodFunctionRepository.save(foodFunction);
+    }
 
 
 }

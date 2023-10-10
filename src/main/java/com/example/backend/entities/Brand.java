@@ -26,7 +26,7 @@ public class Brand {
     @OneToMany(mappedBy = "brand",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @Column(name = "food_function")
     @JsonIgnore
-    private Set<FoodFunction> foodFunctions = new HashSet<>();
+    private Set<FoodFunction> foodFunctions;
 
 
 }
