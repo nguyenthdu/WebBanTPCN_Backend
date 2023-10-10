@@ -17,7 +17,7 @@ public class UserObject {
     private Long id;
     private String nameObject;
 
-     @ManyToMany(mappedBy = "userObjects",cascade = CascadeType.REMOVE)
+     @OneToMany(mappedBy = "userObjects",cascade = CascadeType.REMOVE)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore

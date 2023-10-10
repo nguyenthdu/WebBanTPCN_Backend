@@ -36,9 +36,9 @@ public class FoodFunction {
 
     private String packingWay;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
-   @JoinColumn(name = "user_object_id", nullable = false)
-    private Set<UserObject> userObjects;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_object_id", nullable = false)
+    private UserObject userObjects;
 
     private String dosageForm;
     private String placeOfManufacture;
