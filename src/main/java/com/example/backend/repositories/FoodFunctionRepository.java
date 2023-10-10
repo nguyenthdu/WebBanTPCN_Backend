@@ -8,5 +8,4 @@ import java.util.Optional;
 @Repository
 public interface FoodFunctionRepository extends JpaRepository<FoodFunction, Long> {
     FoodFunction findFoodFunctionByNameFood(String nameFoodFunction);
-    //find food function by ingredients
 }

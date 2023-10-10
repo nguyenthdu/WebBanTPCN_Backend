@@ -18,14 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.*;
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
+
 @RequiredArgsConstructor
 @RestController
+
 @RequestMapping("api/v1/foodFunctions")
 public class FoodFunctionController {
 
@@ -43,28 +42,45 @@ public class FoodFunctionController {
     }
 
     //TODO: create food function
+
     @PostMapping("/createFoodFunction")
-    public ResponseEntity<String> createFoodFunction(@RequestBody FoodFunction foodFunction) {
-        FoodFunction foodFunc = new FoodFunction();
-        foodFunc.setNameFood(foodFunction.getNameFood());
-        if (foodFunctionService.findFoodFunctionByNameFood(foodFunc.getNameFood()) != null) {
+    public ResponseEntity<String> createFoodFunction(
+            @RequestParam("nameFood") String nameFood,
+            @RequestParam("description") String description,
+            @RequestParam("price") double price,
+            @RequestParam("images") MultipartFile images,
+            @RequestParam("ingredients") List<String> ingredients,
+            @RequestParam("uses") List<String> uses,
+            @RequestParam("packingWay") String packingWay,
+            @RequestParam("userObject") List<String> userObject,
+            @RequestParam("dosageForm") String dosageForm,
+            @RequestParam("placeOfManufacture") String placeOfManufacture,
+            @RequestParam("expiryDate") int expiryDate,
+            @RequestParam("manufacturerId") Long manufacturerId,
+            @RequestParam("brandId") Long brandId,
+            @RequestParam("categoryId") Long categoryId
+    ) throws IOException {
+        FoodFunction foodFunction = new FoodFunction();
+        foodFunction.setNameFood(nameFood);
+        if (foodFunctionService.findFoodFunctionByNameFood(foodFunction.getNameFood()) != null) {
             return ResponseEntity.badRequest().body("Name Food Function is required");
         }
-        foodFunction.setDescription(foodFunction.getDescription());
-        foodFunction.setPrice(foodFunction.getPrice());
-        foodFunction.setImages(foodFunction.getImages());
-        foodFunction.setIngredients(foodFunction.getIngredients());
-        foodFunction.setUses(foodFunction.getUses());
-        foodFunction.setPackingWay(foodFunction.getPackingWay());
-        foodFunction.setUserObject(foodFunction.getUserObject());
-        foodFunction.setDosageForm(foodFunction.getDosageForm());
-        foodFunction.setPlaceOfManufacture(foodFunction.getPlaceOfManufacture());
-        foodFunction.setExpiryDate(foodFunction.getExpiryDate());
+        foodFunction.setDescription(description);
+        foodFunction.setPrice(price);
+        byte[]image = images.getBytes();
+        foodFunction.setImages(image);
+        foodFunction.setIngredients(ingredients);
+        foodFunction.setUses(uses);
+        foodFunction.setPackingWay(packingWay);
+        foodFunction.setUserObject(userObject);
+        foodFunction.setDosageForm(dosageForm);
+        foodFunction.setPlaceOfManufacture(placeOfManufacture);
+        foodFunction.setExpiryDate(expiryDate);
 
         // Lấy thông tin Manufacturer, Brand và Category từ dữ liệu được gửi từ client
-        Manufacturer manufacturer = manufacturerService.findManufacturerById(foodFunction.getManufacturer().getId());
-        Brand brand = brandService.findBrandById(foodFunction.getBrand().getId());
-        Category category = categoryService.findCategoryById(foodFunction.getCategory().getId());
+        Manufacturer manufacturer = manufacturerService.findManufacturerById(manufacturerId);
+        Brand brand = brandService.findBrandById(brandId);
+        Category category = categoryService.findCategoryById(categoryId);
 
         foodFunction.setManufacturer(manufacturer);
         foodFunction.setBrand(brand);
@@ -72,6 +88,11 @@ public class FoodFunctionController {
 
         foodFunctionService.createFoodFunction(foodFunction);
         return ResponseEntity.ok("Create Food Function Successfully");
+
+
     }
+
+
+
 
 }

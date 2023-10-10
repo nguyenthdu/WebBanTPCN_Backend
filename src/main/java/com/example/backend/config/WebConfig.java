@@ -28,7 +28,8 @@ public class WebConfig {
         CorsConfiguration config = new CorsConfiguration();
         // cấu hình cors
         config.setAllowCredentials(true);//Cho phép sử dụng Cookie trong yêu cầu CORS (nếu có).
-        config.addAllowedOrigin("http://localhost:4200");// cho phép truy cập từ 1 nguồn cụ thể
+//        config.addAllowedOrigin("http://localhost:4200");// cho phép truy cập từ 1 nguồn cụ thể
+        config.setAllowedOriginPatterns(Arrays.asList("*")); // Sử dụng allowedOriginPatterns
         config.setAllowedHeaders(Arrays.asList(// tiêu đề HTTP được phép trong yêu cầu CORS.
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,

@@ -1,12 +1,11 @@
 package com.example.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Data
@@ -21,8 +20,9 @@ public class FoodFunction {
     private String nameFood;
     private String description;
     private double price;
-    @ElementCollection
-    private List<String> images;
+    @Lob
+    @Column(name = "images", columnDefinition = "mediumblob")
+    private byte[] images;
     @ElementCollection
     private List<String> ingredients;
     @ElementCollection
