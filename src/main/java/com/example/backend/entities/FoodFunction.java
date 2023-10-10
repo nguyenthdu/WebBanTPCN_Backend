@@ -25,16 +25,21 @@ public class FoodFunction {
     @Lob
     @Column(name = "images", columnDefinition = "mediumblob")
     private byte[] images;
-    @ManyToMany
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "ingredient_id", nullable = false)
     private Set<Ingredients> ingredients;
-    @ManyToMany
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "uses_id", nullable = false)
     private Set<Uses> uses;
+
     private String packingWay;
+
     @ManyToMany(cascade = CascadeType.REMOVE)
    @JoinColumn(name = "user_object_id", nullable = false)
     private Set<UserObject> userObjects;
+
     private String dosageForm;
     private String placeOfManufacture;
     private int expiryDate;
