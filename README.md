@@ -1,1 +1,2 @@
-# WebBanTPCN_Backend - Nguyen Thanh Du - Nguyen Xuan An - Nguyen Viet Ngoc Tinh
+### Backend trang web thực phẩm chức năng mô hình mvc sử dụng java spring boot - database mysql- Sử dụng Redis làm cache để tăng tốc độ truy vấn - triển khai và chạy ứng dụng trên docker
+### Chức năng: CRUD, authentication login register jwt, add to cart,payment, send email,...
