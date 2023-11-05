@@ -22,10 +22,11 @@ import java.util.*;
 @Component
 public class UserAuthenticationProvider {
 	private final UserService userService;
-	//Đây là một trường dùng để đọc giá trị của khóa bí mật từ tệp cấu hình Spring Boot. Nếu không có giá trị nào được cung cấp trong tệp cấu hình, mặc định là "secret-key".
+	//TODO: Tạo một khóa bí mật để ký JWT do spring cung cấp, mặc định là "secret-key"
 	@Value("${security.jwt.token.secret-key:secret-key}")
 	private String secretKey;
 	
+	//TODO: Tạo một thuộc tính để lưu trữ khóa bí mật đã mã hóa
 	@PostConstruct
 	protected void init() {
 		// this is to avoid having the raw secret key available in the JVM
