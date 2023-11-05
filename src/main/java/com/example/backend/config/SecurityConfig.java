@@ -35,8 +35,7 @@ public class SecurityConfig {
 //						.requestMatchers("/api/v1/user/updateUser").permitAll()
 						.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 						.requestMatchers("/api/v1/user/**").hasAnyRole("USER", "ADMIN")
-						.anyRequest().authenticated());
-//				.formLogin(withDefaults());
+						.anyRequest().authenticated());//tất cả các yêu cầu khác đều cần được xác thực
 //						.anyRequest().permitAll());// cho phép tất cả
 		return http.build();
 	}
