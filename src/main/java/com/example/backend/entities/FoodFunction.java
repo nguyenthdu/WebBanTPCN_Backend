@@ -20,6 +20,7 @@ public class FoodFunction {
 	@Column(columnDefinition = "text")
 	private String description;
 	private double price;
+	private int quantity;
 	@Lob
 	@Column(name = "images", columnDefinition = "mediumblob")
 	@JsonIgnore//bỏ qua thuộc tính này khi chuyển thành json
