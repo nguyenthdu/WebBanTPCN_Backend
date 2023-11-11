@@ -41,6 +41,7 @@ public class FoodFunctionController {
 			@RequestParam("nameFood") String nameFood,
 			@RequestParam("description") String description,
 			@RequestParam("price") double price,
+			@RequestParam("quantity") int quantity,
 			@RequestParam("images") MultipartFile images,
 			@RequestParam("ingredients") String ingredients,
 			@RequestParam("packingWay") String packingWay,//			@RequestParam("userObjectId") Long userObjectId,
@@ -61,6 +62,7 @@ public class FoodFunctionController {
 		Category category = categoryService.findCategoryById(categoryId);
 		foodFunction.setDescription(description);
 		foodFunction.setPrice(price);
+		foodFunction.setQuantity(quantity);
 		foodFunction.setImages(images.getBytes());
 		foodFunction.setIngredients(ingredients);
 		foodFunction.setPackingWay(packingWay);
@@ -101,6 +103,7 @@ public class FoodFunctionController {
 			@RequestParam("nameFood") String nameFood,
 			@RequestParam("description") String description,
 			@RequestParam("price") double price,
+			@RequestParam("quantity") int quantity,
 			@RequestParam("images") MultipartFile images,
 			@RequestParam("ingredients") String ingredients,
 			@RequestParam("packingWay") String packingWay,//			@RequestParam("userObjectId") Long userObjectId,
@@ -123,6 +126,7 @@ public class FoodFunctionController {
 		foodFunction.setNameFood(nameFood);
 		foodFunction.setDescription(description);
 		foodFunction.setPrice(price);
+		foodFunction.setQuantity(quantity);
 		foodFunction.setImages(images.getBytes());
 		foodFunction.setIngredients(ingredients);
 		foodFunction.setPackingWay(packingWay);
