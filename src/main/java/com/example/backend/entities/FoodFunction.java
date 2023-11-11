@@ -22,6 +22,7 @@ public class FoodFunction {
 	private double price;
 	@Lob
 	@Column(name = "images", columnDefinition = "mediumblob")
+	@JsonIgnore//bỏ qua thuộc tính này khi chuyển thành json
 	private byte[] images;
 	@Column(columnDefinition = "text")
 	private String ingredients;

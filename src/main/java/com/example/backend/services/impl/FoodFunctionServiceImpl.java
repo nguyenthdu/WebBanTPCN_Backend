@@ -17,8 +17,8 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
 	public FoodFunctionServiceImpl(FoodFunctionRepository foodFunctionRepository) {
 		this.foodFunctionRepository = foodFunctionRepository;
 	}
-	//Xử lý random code cho food function
 	
+	//Xử lý random code cho food function
 	public String randomCode() {
 		String code = "";
 		double n = (Math.random()) * ((100000 - 1) + 1) + 1;//random từ 1 đến 100000
