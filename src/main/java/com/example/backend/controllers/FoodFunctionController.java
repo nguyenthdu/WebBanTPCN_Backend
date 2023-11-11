@@ -84,6 +84,16 @@ public class FoodFunctionController {
 		return ResponseEntity.ok().body(foodFunction);
 	}
 	
+	//TODO: get food by name
+	@GetMapping("/foodFunctions/name/{name}")
+	ResponseEntity<FoodFunction> getFoodFunctionByName(@PathVariable(value = "name") String nameFood) {
+		FoodFunction foodFunction = foodFunctionService.findFoodFunctionByNameFood(nameFood);
+		if(foodFunction == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(foodFunction);
+	}
+	
 	//TODO: update food function by id
 	@PutMapping("/foodFunctions")
 	ResponseEntity<String> updateFoodFunction(
