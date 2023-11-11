@@ -56,6 +56,19 @@ public class UserController {
 		userDto.setToken(userAuthenticationProvider.createToken(userDto));
 		return ResponseEntity.ok(userDto);
 	}
+	//TODO: ----------------- LOGOUT -----------------
+	//Status: doing
+	//Xử lý logout xóa token
+//	@PostMapping("/logout")
+//	public ResponseEntity<String> logout() {
+//		// Lấy thông tin người dùng đã được xác thực từ SecurityContextHolder
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		if(authentication != null && authentication.getPrincipal() instanceof UserDto) {
+//			UserDto userDto = (UserDto) authentication.getPrincipal();
+//			userAuthenticationProvider.removeToken(userDto);
+//		}
+//		return ResponseEntity.ok("Logout successfully");
+//	}
 	
 	//TODO: ----------------- REGISTER -----------------
 	@PostMapping("/register")

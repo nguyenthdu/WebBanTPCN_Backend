@@ -14,14 +14,18 @@ import java.util.Set;
 @Entity
 @Table(name = "category")
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nameCategory;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<FoodFunction> foodFunctions;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String name;
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	private Set<FoodFunction> foodFunctions;
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
+	@ManyToOne
+	@JoinColumn(name = "typeFood_id", nullable = false)
+	private TypeFood typeFood;
 }
