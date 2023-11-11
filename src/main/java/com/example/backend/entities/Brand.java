@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -15,18 +14,16 @@ import java.util.Set;
 @Entity
 @Table(name = "brand")
 public class Brand {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nameBrand;
-    private String description;
-    private String origin;
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "brand",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @Column(name = "food_function")
-    @JsonIgnore
-    private Set<FoodFunction> foodFunctions;
-
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String nameBrand;
+	private String description;
+	private String origin;
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
+	@OneToMany(mappedBy = "brand", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@Column(name = "food_function")
+	@JsonIgnore
+	private Set<FoodFunction> foodFunctions;
 }
