@@ -1,5 +1,6 @@
 package com.example.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,11 +18,13 @@ public class CartItem {
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@ManyToOne
-	@JoinColumn(name = "cart_id", nullable = false)
-	private Cart cart;
+	@JoinColumn(name = "shopping_cart_id")
+	@JsonIgnore
+	private ShoppingCart shoppingCart;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@ManyToOne
+	@JoinColumn(name = "food_function_id")
 	private FoodFunction foodFunction;
 	private int quantity;
 }
