@@ -12,20 +12,19 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "cart")
-public class Cart {
+@Table(name = "shopping_cart")
+public class ShoppingCart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@OneToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	private User_ user;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
-	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-	@Column(name = "cart_item")
+	@OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<CartItem> cartItems = new HashSet<>();
 	private int totalItem;
 	private double totalPrice;

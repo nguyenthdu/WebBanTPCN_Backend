@@ -2,9 +2,7 @@ package com.example.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -18,7 +16,9 @@ public class TypeFood {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	@JsonIgnore
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "typeFood", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
 	private Set<Category> categories;
 }

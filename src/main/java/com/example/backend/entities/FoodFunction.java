@@ -2,9 +2,7 @@ package com.example.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
@@ -33,14 +31,20 @@ public class FoodFunction {
 	private int expiryDate;
 	private boolean status = true;
 	private int discount = 0;
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "manufacturer_id", nullable = false)
 	@JsonIgnore
 	private Manufacturer manufacturer;
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "brand_id", nullable = false)
 	@JsonIgnore
 	private Brand brand;
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	@JsonIgnore
