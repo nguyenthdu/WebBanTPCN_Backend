@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,11 +22,9 @@ public class FoodFunction {
 	private String description;
 	private double price;
 	private int quantity;
-	@Lob
-	@Column(name = "images", columnDefinition = "mediumblob")
-	@JsonIgnore//bỏ qua thuộc tính này khi chuyển thành json
-	//Trường này có thể để trống khi tạo mới:
-	private byte[] images = new byte[0];
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "image_id")
+	private List<ImageFile> imageFiles = new ArrayList<>();
 	@Column(columnDefinition = "text")
 	private String ingredients;
 	private String packingWay;//cách đóng gói
