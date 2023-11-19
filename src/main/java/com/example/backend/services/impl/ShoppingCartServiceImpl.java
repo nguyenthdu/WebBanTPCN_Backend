@@ -4,6 +4,7 @@ import com.example.backend.entities.CartItem;
 import com.example.backend.entities.FoodFunction;
 import com.example.backend.entities.ShoppingCart;
 import com.example.backend.entities.User_;
+import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.CartItemRepository;
 import com.example.backend.repositories.FoodFunctionRepository;
 import com.example.backend.repositories.ShoppingCartRepository;
@@ -11,6 +12,7 @@ import com.example.backend.repositories.UserRepository;
 import com.example.backend.services.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,7 +32,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public void addFoodToCart(Long userId, Long foodFunctionId, int quantity) {
 		ShoppingCart cart = getOrCreateCartForUser(userId);
 		FoodFunction foodFunction = foodFunctionRepository.findById(foodFunctionId)
-				.orElseThrow(() -> new RuntimeException("Not found food function"));
+				.orElseThrow(() -> new AppException("Not found food function with id: " + foodFunctionId, HttpStatus.NOT_FOUND));
 		//Nếu số lượng sản phẩm thêm vào giỏ hàng lớn hơn số lượng tồn kho thì báo lỗi
 		int tempQuantity = 0;
 		for(CartItem cartItem : cart.getCartItems()) {
@@ -49,7 +51,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 					existingCartItem.get().setQuantity(existingCartItem.get().getQuantity() + quantity);
 				} else {
 					// Xử lý khi số lượng vượt quá số lượng tồn kho
-					throw new RuntimeException("Number of products exceeds inventory");
+//					throw new RuntimeException("Number of products exceeds inventory");
+					throw new AppException("Number of products exceeds inventory", HttpStatus.BAD_REQUEST);
 				}
 			} else {
 				// Nếu sản phẩm chưa có trong giỏ hàng, tạo mới một CartItem
@@ -62,7 +65,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			updateCartTotal(cart);
 		} else {
 			// Xử lý khi sản phẩm hết hàng hoặc trạng thái là false
-			throw new RuntimeException("product is out of stock or no longer in business");
+//			throw new RuntimeException("product is out of stock or no longer in business");
+			throw new AppException("product is out of stock or no longer in business", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -81,7 +85,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			updateCartTotal(cart);
 			shoppingCartRepository.save(cart);
 		} else {
-			throw new RuntimeException("Not found food function in cart");
+			throw new AppException("Not found cart item with id: " + foodFunctionId, HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -105,7 +109,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			cartItemRepository.save(cartItem);
 		} else {
 			// Xử lý khi sản phẩm hết hàng hoặc trạng thái là false
-			throw new RuntimeException("product is out of stock or no longer in business");
+			throw new AppException("product is out of stock or no longer in business", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -116,7 +120,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			Optional<ShoppingCart> existingCart = shoppingCartRepository.findByUserId(userId);
 			return existingCart.orElseGet(() -> createCartForUser(user.get()));
 		} else {
-			throw new RuntimeException("Not found user with id: " + userId + " in database");
+			throw new AppException("Not found user with id: " + userId + " in database", HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -128,7 +132,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			Optional<ShoppingCart> existingCart = shoppingCartRepository.findByUserId(userId);
 			return existingCart.orElseThrow(() -> new RuntimeException("Not found cart for user with id: " + userId));
 		} else {
-			throw new RuntimeException("Not found user with id: " + userId + " in database");
+			throw new AppException("Not found user with id: " + userId + " in database", HttpStatus.NOT_FOUND);
 		}
 	}
 	

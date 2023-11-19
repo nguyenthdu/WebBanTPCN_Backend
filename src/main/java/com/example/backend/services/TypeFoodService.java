@@ -9,8 +9,7 @@ public interface TypeFoodService {
 	TypeFood createTypeFood(TypeFood typeFood);
 	
 	TypeFood findTypeFoodById(Long typeFoodId);
-	
-	TypeFood findTypeFoodByNameTypeFood(String nameTypeFood);
+//	TypeFood findTypeFoodByNameTypeFood(String nameTypeFood);
 	
 	void deleteTypeFoodById(Long typeFoodId);
 	

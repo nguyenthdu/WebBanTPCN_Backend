@@ -1,11 +1,13 @@
 package com.example.backend.services.impl;
 
 import com.example.backend.entities.FoodFunction;
+import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.FoodFunctionRepository;
 import com.example.backend.services.FoodFunctionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,17 +55,25 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
 		foodFunction.setCode(randomCode());
 		foodFunction.setStatus(true);
 		foodFunction.setDiscount(0);
+		foodFunction.setImages(new byte[0]);
+		if(foodFunctionRepository.findFoodFunctionByNameFood(foodFunction.getNameFood()) != null) {
+			throw new AppException("Name Food is existed", HttpStatus.BAD_REQUEST);
+		}
 		return foodFunctionRepository.save(foodFunction);
 	}
 	
 	@Override
 	public FoodFunction findFoodFunctionByNameFood(String nameFoodFunction) {
+		if(foodFunctionRepository.findFoodFunctionByNameFood(nameFoodFunction) == null) {
+			throw new AppException("Not found food function with name: " + nameFoodFunction, HttpStatus.NOT_FOUND);
+		}
 		return foodFunctionRepository.findFoodFunctionByNameFood(nameFoodFunction);
 	}
 	
 	@Override
 	public FoodFunction findFoodFunctionById(Long idFoodFunction) {
-		return foodFunctionRepository.findFoodFunctionById(idFoodFunction);
+		return foodFunctionRepository.findById(idFoodFunction)
+				.orElseThrow(() -> new AppException("Not found food function with id: " + idFoodFunction, HttpStatus.NOT_FOUND));
 	}
 	
 	@Override
@@ -73,6 +83,7 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
 	
 	@Override
 	public FoodFunction updateFoodFunction(FoodFunction foodFunction) {
+		//nếu như không tìm thấy brand hoặc category hoặc manufacturer thì báo lỗi
 		return foodFunctionRepository.save(foodFunction);
 	}
 	
@@ -84,7 +95,7 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
 		if(pageResult.hasContent()) {
 			return pageResult.getContent();
 		} else {
-			return null;
+			throw new AppException("Page " + pageNumber + " is not existed", HttpStatus.NOT_FOUND);
 		}
 	}
 }

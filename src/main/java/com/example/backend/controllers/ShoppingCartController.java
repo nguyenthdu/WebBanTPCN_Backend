@@ -1,6 +1,8 @@
 package com.example.backend.controllers;
 
+import com.example.backend.dtos.ErrorDto;
 import com.example.backend.entities.ShoppingCart;
+import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.ShoppingCartRepository;
 import com.example.backend.services.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -21,13 +24,12 @@ public class ShoppingCartController {
 	
 	// Thêm sản phẩm vào giỏ hàng
 	@PostMapping("/carts")
-	public ResponseEntity<String> addFoodToCart(@RequestParam Long userId, @RequestParam Long foodFunctionId, @RequestParam int quantity) {
+	public ResponseEntity<ErrorDto> addFoodToCart(@RequestParam Long userId, @RequestParam Long foodFunctionId, @RequestParam int quantity) {
 		try {
 			shoppingCartService.addFoodToCart(userId, foodFunctionId, quantity);
-			return ResponseEntity.ok("Add food to cart successfully");
-		} catch (RuntimeException e) {
-			// Xử lý ngoại lệ khi thêm sản phẩm không thành công
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			return ResponseEntity.ok(new ErrorDto("Add food to cart successfully", HttpStatus.OK.value(), Instant.now().toString()));
+		} catch (AppException ex) {
+			return ResponseEntity.status(ex.getStatus()).body(new ErrorDto(ex.getMessage(), ex.getStatus(), ex.getTimestamp()));
 		}
 	}
 	

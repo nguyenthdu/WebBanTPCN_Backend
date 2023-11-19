@@ -22,7 +22,8 @@ public class FoodFunction {
 	@Lob
 	@Column(name = "images", columnDefinition = "mediumblob")
 	@JsonIgnore//bỏ qua thuộc tính này khi chuyển thành json
-	private byte[] images;
+	//Trường này có thể để trống khi tạo mới:
+	private byte[] images = new byte[0];
 	@Column(columnDefinition = "text")
 	private String ingredients;
 	private String packingWay;//cách đóng gói
