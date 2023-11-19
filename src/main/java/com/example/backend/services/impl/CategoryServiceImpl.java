@@ -2,8 +2,10 @@ package com.example.backend.services.impl;
 
 import com.example.backend.entities.Category;
 import com.example.backend.entities.FoodFunction;
+import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.CategoryRepository;
 import com.example.backend.services.CategoryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -18,6 +20,9 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	public Category createCategory(Category category) {
+		if(categoryRepository.findCategoryByName(category.getName()) != null) {
+			throw new AppException("Name Category is existed", HttpStatus.BAD_REQUEST);
+		}
 		return categoryRepository.save(category);
 	}
 	
@@ -28,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	public Category findCategoryById(Long categoryId) {
-		return categoryRepository.findCategoryById(categoryId);
+		return categoryRepository.findById(categoryId).orElseThrow(() -> new AppException("Id Category is not existed with id: " + categoryId, HttpStatus.NOT_FOUND));
 	}
 	
 	@Override

@@ -1,13 +1,17 @@
 package com.example.backend.controllers;
 
+import com.example.backend.dtos.ErrorDto;
 import com.example.backend.entities.Brand;
+import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.BrandRepository;
 import com.example.backend.services.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,37 +36,43 @@ public class BrandController {
 //
 	//TODO: get brand by id
 	@GetMapping("/brands/{brandId}")
-	Brand getBrand(@PathVariable Long brandId) {
-		return brandRepository.findBrandById(brandId);
+	ResponseEntity<Brand> getBrandById(@PathVariable Long brandId) {
+		Brand brand = brandService.findBrandById(brandId);
+		return ResponseEntity.ok().body(brand);
 	}
 	
 	//TODO: create brand
 	@PostMapping("/brands")
-	ResponseEntity<String> createBrand(@RequestBody Brand brand) {
-		if(brandService.findBrandByNameBrand(brand.getNameBrand()) != null) {
-			return ResponseEntity.badRequest().body("Name Brand is required");
+	ResponseEntity<ErrorDto> createBrand(@RequestBody Brand brand) {
+		try {
+			brandService.createBrand(brand);
+		} catch (AppException e) {
+			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
-		brandService.createBrand(brand);
-		return ResponseEntity.ok("Create Brand Successfully");
+		return ResponseEntity.ok(new ErrorDto("Create Brand Successfully with brand id: " + brand.getId(), HttpStatus.OK.value(), Instant.now().toString()));
 	}
 	
 	//TODO: update brand
 	@PutMapping("/brands")
-	ResponseEntity<String> updateBrand(@RequestBody Brand brand) {
-		if(brandService.findBrandById(brand.getId()) == null) {
-			return ResponseEntity.badRequest().body("Id Brand is not existed");
+	ResponseEntity<ErrorDto> updateBrand(@RequestBody Brand brand) {
+		Brand brand1 = brandService.findBrandById(brand.getId());
+		try {
+			brandService.updateBrand(brand);
+		} catch (AppException e) {
+			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
-		brandService.updateBrand(brand);
-		return ResponseEntity.ok("Update Brand Successfully");
+		return ResponseEntity.ok(new ErrorDto("Update Brand Successfully with brand id: " + brand1.getId(), HttpStatus.OK.value(), Instant.now().toString()));
 	}
 	
 	//TODO: delete brand by id
 	@DeleteMapping("/brands/{brandId}")
-	ResponseEntity<String> deleteBrand(@PathVariable Long brandId) {
-		if(brandService.findBrandById(brandId) == null) {
-			return ResponseEntity.badRequest().body("Id Brand is not existed");
+	ResponseEntity<ErrorDto> deleteBrand(@PathVariable Long brandId) {
+		Brand brand = brandService.findBrandById(brandId);
+		try {
+			brandService.deleteBrandById(brandId);
+		} catch (AppException e) {
+			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
-		brandService.deleteBrandById(brandId);
-		return ResponseEntity.ok("Delete Brand Successfully");
+		return ResponseEntity.ok(new ErrorDto("Delete Brand Successfully with brand id: " + brand.getId(), HttpStatus.OK.value(), Instant.now().toString()));
 	}
 }

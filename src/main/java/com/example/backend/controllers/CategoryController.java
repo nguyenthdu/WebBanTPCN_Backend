@@ -1,15 +1,20 @@
 package com.example.backend.controllers;
 
+import com.example.backend.dtos.ErrorDto;
 import com.example.backend.entities.Category;
 import com.example.backend.entities.FoodFunction;
+import com.example.backend.entities.TypeFood;
+import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.CategoryRepository;
 import com.example.backend.services.CategoryService;
 import com.example.backend.services.TypeFoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -30,16 +35,18 @@ public class CategoryController {
 	
 	//TODO: create category
 	@PostMapping("/categories")
-	ResponseEntity<String> createCategory(@RequestParam("categoryName") String categoryName,
-	                                      @RequestParam("typeFoodId") Long typeFoodId) {
+	ResponseEntity<ErrorDto> createCategory(@RequestParam("categoryName") String categoryName,
+	                                        @RequestParam("typeFoodId") Long typeFoodId) {
 		Category category = new Category();
-		category.setName(categoryName);
-		if(categoryService.findCategoryByName(category.getName()) != null) {
-			return ResponseEntity.badRequest().body("Name Category is required");
+		TypeFood typeFood = typeFoodService.findTypeFoodById(typeFoodId);
+		try {
+			category.setName(categoryName);
+			category.setTypeFood(typeFood);
+			categoryService.createCategory(category);
+		} catch (AppException e) {
+			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
-		category.setTypeFood(typeFoodService.findTypeFoodById(typeFoodId));
-		categoryService.createCategory(category);
-		return ResponseEntity.ok("Create Category Successfully");
+		return ResponseEntity.ok(new ErrorDto("Create Category Successfully with id: " + category.getId(), HttpStatus.OK.value(), Instant.now().toString()));
 	}
 	
 	//TODO: get category by id
@@ -60,26 +67,29 @@ public class CategoryController {
 	
 	//TODO: update category
 	@PutMapping("/categories")
-	ResponseEntity<String> updateCategory(@RequestParam("categoryId") Long categoryId,
-	                                      @RequestParam("categoryName") String categoryName,
-	                                      @RequestParam("typeFoodId") Long typeFoodId) {
+	ResponseEntity<ErrorDto> updateCategory(@RequestParam("categoryId") Long categoryId,
+	                                        @RequestParam("categoryName") String categoryName,
+	                                        @RequestParam("typeFoodId") Long typeFoodId) {
 		Category category = categoryService.findCategoryById(categoryId);
-		if(category == null) {
-			return ResponseEntity.badRequest().body("Id Category is not existed");
+		try {
+			category.setName(categoryName);
+			category.setTypeFood(typeFoodService.findTypeFoodById(typeFoodId));
+			categoryService.updateCategory(category);
+		} catch (AppException e) {
+			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
-		category.setName(categoryName);
-		category.setTypeFood(typeFoodService.findTypeFoodById(typeFoodId));
-		categoryService.updateCategory(category);
-		return ResponseEntity.ok("Update Category Successfully");
+		return ResponseEntity.ok(new ErrorDto("Update Category Successfully with id: " + category.getId(), HttpStatus.OK.value(), Instant.now().toString()));
 	}
 	
 	//TODO: delete category by id
 	@DeleteMapping("/categories/{categoryId}")
-	ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
-		if(categoryService.findCategoryById(categoryId) == null) {
-			return ResponseEntity.badRequest().body("Id Category is not existed");
+	ResponseEntity<ErrorDto> deleteCategory(@PathVariable Long categoryId) {
+		Category category = categoryService.findCategoryById(categoryId);
+		try {
+			categoryService.deleteCategoryById(categoryId);
+		} catch (AppException e) {
+			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
-		categoryService.deleteCategoryById(categoryId);
-		return ResponseEntity.ok("Delete Category Successfully");
+		return ResponseEntity.ok(new ErrorDto("Delete Category Successfully with id: " + category.getId(), HttpStatus.OK.value(), Instant.now().toString()));
 	}
 }

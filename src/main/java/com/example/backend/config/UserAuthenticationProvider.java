@@ -54,7 +54,6 @@ public class UserAuthenticationProvider {
 				.sign(algorithm);
 	}
 	//Xác thực jwt  bằng cách sử dụng khóa bí mật đã sử dụng để tạo token
-	//TODO: ----------------- DELETE TOKEN-----------------
 	
 	public Authentication validateToken(String token) {
 		Algorithm algorithm = Algorithm.HMAC256(secretKey);

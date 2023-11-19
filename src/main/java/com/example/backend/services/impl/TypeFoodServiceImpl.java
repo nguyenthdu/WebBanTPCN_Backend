@@ -2,8 +2,10 @@ package com.example.backend.services.impl;
 
 import com.example.backend.entities.Category;
 import com.example.backend.entities.TypeFood;
+import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.TypeFoodRepository;
 import com.example.backend.services.TypeFoodService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -19,19 +21,21 @@ public class TypeFoodServiceImpl implements TypeFoodService {
 	//TODO: method create new type food
 	@Override
 	public TypeFood createTypeFood(TypeFood typeFood) {
+		if(typeFoodRepository.findTypeFoodByName(typeFood.getName()) != null) {
+			throw new AppException("Name Type Food is existed", HttpStatus.BAD_REQUEST);
+		}
 		return typeFoodRepository.save(typeFood);
 	}
 	
 	//TODO: method find type food by id
 	@Override
 	public TypeFood findTypeFoodById(Long typeFoodId) {
-		return typeFoodRepository.findTypeFoodById(typeFoodId);
+		return typeFoodRepository.findById(typeFoodId).orElseThrow(() -> new AppException("Id Type Food is not existed with id: " + typeFoodId, HttpStatus.NOT_FOUND));
 	}
-	
-	@Override
-	public TypeFood findTypeFoodByNameTypeFood(String nameTypeFood) {
-		return typeFoodRepository.findTypeFoodByName(nameTypeFood);
-	}
+//	@Override
+//	public TypeFood findTypeFoodByNameTypeFood(String nameTypeFood) {
+//		return typeFoodRepository.findTypeFoodByName(nameTypeFood);
+//	}
 	//TODO: method delete uses by id
 	
 	@Override

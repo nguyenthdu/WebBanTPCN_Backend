@@ -18,7 +18,7 @@ public class TypeFood {
 	private String name;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
-	@OneToMany(mappedBy = "typeFood", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "typeFood", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Set<Category> categories;
 }

@@ -2,8 +2,10 @@ package com.example.backend.services.impl;
 
 import com.example.backend.entities.FoodFunction;
 import com.example.backend.entities.Manufacturer;
+import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.ManufacturerRepository;
 import com.example.backend.services.ManufacturerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -18,6 +20,9 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	
 	@Override
 	public Manufacturer createManufacturer(Manufacturer manufacturer) {
+		if(manufacturerRepository.findManufacturerByNameManufacturer(manufacturer.getNameManufacturer()) != null) {
+			throw new AppException("Name Manufacturer is existed", HttpStatus.BAD_REQUEST);
+		}
 		return manufacturerRepository.save(manufacturer);
 	}
 	
@@ -28,7 +33,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	
 	@Override
 	public Manufacturer findManufacturerById(Long idManufacturer) {
-		return manufacturerRepository.findManufacturerById(idManufacturer);
+		return manufacturerRepository.findById(idManufacturer).orElseThrow(() -> new AppException("Id Manufacturer is not existed with id: " + idManufacturer, HttpStatus.NOT_FOUND));
 	}
 	
 	@Override
