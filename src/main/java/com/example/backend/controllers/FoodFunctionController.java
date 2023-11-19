@@ -1,10 +1,7 @@
 package com.example.backend.controllers;
 
 import com.example.backend.dtos.ErrorDto;
-import com.example.backend.entities.Brand;
-import com.example.backend.entities.Category;
-import com.example.backend.entities.FoodFunction;
-import com.example.backend.entities.Manufacturer;
+import com.example.backend.entities.*;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.FoodFunctionRepository;
 import com.example.backend.services.BrandService;
@@ -12,14 +9,17 @@ import com.example.backend.services.CategoryService;
 import com.example.backend.services.FoodFunctionService;
 import com.example.backend.services.ManufacturerService;
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -46,7 +46,7 @@ public class FoodFunctionController {
 			@RequestParam("description") String description,
 			@RequestParam("price") double price,
 			@RequestParam("quantity") int quantity,
-			@RequestParam("images") MultipartFile images,
+			@RequestParam("imageFiles") List<MultipartFile> imageFiles,
 			@RequestParam("ingredients") String ingredients,
 			@RequestParam("packingWay") String packingWay,//			@RequestParam("userObjectId") Long userObjectId,
 			@RequestParam("dosageForm") String dosageForm,
@@ -65,7 +65,21 @@ public class FoodFunctionController {
 			foodFunction.setDescription(description);
 			foodFunction.setPrice(price);
 			foodFunction.setQuantity(quantity);
-			foodFunction.setImages(images.getBytes());
+			List<ImageFile> imageFileList = new ArrayList<>();
+			for(MultipartFile file : imageFiles) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				Thumbnails.of(file.getInputStream())
+						.size(372, 372)
+						.keepAspectRatio(false)
+						.outputFormat("jpg")
+						.outputQuality(0.5)
+						.toOutputStream(baos);
+				byte[] resizedImageBytes = baos.toByteArray();
+				ImageFile imageFile = new ImageFile();
+				imageFile.setPicByte(resizedImageBytes);
+				imageFileList.add(imageFile);
+			}
+			foodFunction.setImageFiles(imageFileList);
 			foodFunction.setIngredients(ingredients);
 			foodFunction.setPackingWay(packingWay);
 			foodFunction.setDosageForm(dosageForm);
@@ -103,7 +117,7 @@ public class FoodFunctionController {
 			@RequestParam("description") String description,
 			@RequestParam("price") double price,
 			@RequestParam("quantity") int quantity,
-			@RequestParam("images") MultipartFile images,
+			@RequestParam("imageFiles") List<MultipartFile> imageFiles,
 			@RequestParam("ingredients") String ingredients,
 			@RequestParam("packingWay") String packingWay,//			@RequestParam("userObjectId") Long userObjectId,
 			@RequestParam("dosageForm") String dosageForm,
@@ -124,7 +138,24 @@ public class FoodFunctionController {
 			foodFunction.setDescription(description);
 			foodFunction.setPrice(price);
 			foodFunction.setQuantity(quantity);
-			foodFunction.setImages(images.getBytes());
+			// Xử lý danh sách ảnh mới
+			List<ImageFile> newImageFileList = new ArrayList<>();
+			for(MultipartFile file : imageFiles) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				Thumbnails.of(file.getInputStream())
+						.size(372, 372)
+						.keepAspectRatio(false)
+						.outputFormat("jpg")
+						.outputQuality(0.5)
+						.toOutputStream(baos);
+				byte[] resizedImageBytes = baos.toByteArray();
+				ImageFile imageFile = new ImageFile();
+				imageFile.setPicByte(resizedImageBytes);
+				newImageFileList.add(imageFile);
+			}
+			// Xóa ảnh cũ và thêm ảnh mới
+			foodFunction.getImageFiles().clear();
+			foodFunction.getImageFiles().addAll(newImageFileList);
 			foodFunction.setIngredients(ingredients);
 			foodFunction.setPackingWay(packingWay);
 			foodFunction.setDosageForm(dosageForm);
@@ -159,5 +190,12 @@ public class FoodFunctionController {
 	ResponseEntity<List<FoodFunction>> getAllFoodFunctionsByPage(@PathVariable(value = "pageNumber") int pageNumber) {
 		List<FoodFunction> foodFunctions = foodFunctionService.getAllFoodFunction(pageNumber, 2);
 		return ResponseEntity.ok().body(foodFunctions);
+	}
+	
+	//TODO: get all image of food function
+	@GetMapping("/foodFunctions/{id}/images")
+	ResponseEntity<List<ImageFile>> getAllImageFoodFunction(@PathVariable(value = "id") Long idFoodFunction) {
+		List<ImageFile> imageFiles = foodFunctionService.getAllImageFoodFunction(idFoodFunction);
+		return ResponseEntity.ok().body(imageFiles);
 	}
 }

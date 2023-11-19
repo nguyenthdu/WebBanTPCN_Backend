@@ -1,6 +1,7 @@
 package com.example.backend.services.impl;
 
 import com.example.backend.entities.FoodFunction;
+import com.example.backend.entities.ImageFile;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.FoodFunctionRepository;
 import com.example.backend.services.FoodFunctionService;
@@ -55,7 +56,6 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
 		foodFunction.setCode(randomCode());
 		foodFunction.setStatus(true);
 		foodFunction.setDiscount(0);
-		foodFunction.setImages(new byte[0]);
 		if(foodFunctionRepository.findFoodFunctionByNameFood(foodFunction.getNameFood()) != null) {
 			throw new AppException("Name Food is existed", HttpStatus.BAD_REQUEST);
 		}
@@ -97,6 +97,13 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
 		} else {
 			throw new AppException("Page " + pageNumber + " is not existed", HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@Override
+	public List<ImageFile> getAllImageFoodFunction(Long idFoodFunction) {
+		FoodFunction foodFunction = foodFunctionRepository.findById(idFoodFunction)
+				.orElseThrow(() -> new AppException("Not found food function with id: " + idFoodFunction, HttpStatus.NOT_FOUND));
+		return foodFunction.getImageFiles();
 	}
 }
 
