@@ -15,6 +15,6 @@ public class ImageFile {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Lob
-	@Column(name = "picByte", columnDefinition = "MEDIUMBLOB")
+	@Column(name = "pic_byte", columnDefinition = "MEDIUMBLOB")
 	private byte[] picByte;
 }

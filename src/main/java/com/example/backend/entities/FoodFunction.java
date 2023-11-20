@@ -17,6 +17,7 @@ public class FoodFunction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String code;
+	@Column(name = "name_food")
 	private String nameFood;
 	@Column(columnDefinition = "text")
 	private String description;
@@ -27,9 +28,13 @@ public class FoodFunction {
 	private List<ImageFile> imageFiles = new ArrayList<>();
 	@Column(columnDefinition = "text")
 	private String ingredients;
+	@Column(name = "packing_way")
 	private String packingWay;//cách đóng gói
+	@Column(name = "dosage_form")
 	private String dosageForm;//dạng bào chế
+	@Column(name = "place_of_manufacture")
 	private String placeOfManufacture;
+	@Column(name = "expiry_date")
 	private int expiryDate;
 	private boolean status = true;
 	private int discount = 0;

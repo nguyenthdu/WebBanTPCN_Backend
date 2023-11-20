@@ -26,6 +26,6 @@ public class Category {
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@ManyToOne
-	@JoinColumn(name = "typeFood_id", nullable = false)
+	@JoinColumn(name = "type_food_id", nullable = false)
 	private TypeFood typeFood;
 }
