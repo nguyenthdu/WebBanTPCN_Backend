@@ -27,11 +27,6 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public Category findCategoryByName(String categoryName) {
-		return categoryRepository.findCategoryByName(categoryName);
-	}
-	
-	@Override
 	public Category findCategoryById(Long categoryId) {
 		return categoryRepository.findById(categoryId).orElseThrow(() -> new AppException("Id Category is not existed with id: " + categoryId, HttpStatus.NOT_FOUND));
 	}

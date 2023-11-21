@@ -2,6 +2,7 @@ package com.example.backend.services;
 
 import com.example.backend.entities.FoodFunction;
 import com.example.backend.entities.ImageFile;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface FoodFunctionService {
 	
 	FoodFunction updateFoodFunction(FoodFunction foodFunction);
 	
-	List<FoodFunction> getAllFoodFunction(int pageNumber, int pageSize);
+	Page<FoodFunction> getAllFoodFunction(int pageNumber, int pageSize);
 	
 	//get all image of food function
 	List<ImageFile> getAllImageFoodFunction(Long idFoodFunction);

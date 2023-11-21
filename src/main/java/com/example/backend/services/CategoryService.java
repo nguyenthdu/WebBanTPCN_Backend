@@ -8,8 +8,6 @@ import java.util.Set;
 public interface CategoryService {
 	Category createCategory(Category category);
 	
-	Category findCategoryByName(String categoryName);
-	
 	Category findCategoryById(Long idCategory);
 	
 	// in ra tất cả các food function có trong 1 category

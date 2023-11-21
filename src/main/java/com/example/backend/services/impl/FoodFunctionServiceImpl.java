@@ -87,16 +87,21 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
 		return foodFunctionRepository.save(foodFunction);
 	}
 	
+	//	@Override
+//	public List<FoodFunction> getAllFoodFunction(int pageNumber, int pageSize) {
+//		//trang bắt đầu từ 1:pageNumber - 1
+//		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+//		Page<FoodFunction> pageResult = foodFunctionRepository.findAll(pageable);
+//		if(pageResult.hasContent()) {
+//			return pageResult.getContent();
+//		} else {
+//			throw new AppException("Page " + pageNumber + " is not existed", HttpStatus.NOT_FOUND);
+//		}
+//	}
 	@Override
-	public List<FoodFunction> getAllFoodFunction(int pageNumber, int pageSize) {
-		//trang bắt đầu từ 1:pageNumber - 1
+	public Page<FoodFunction> getAllFoodFunction(int pageNumber, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
-		Page<FoodFunction> pageResult = foodFunctionRepository.findAll(pageable);
-		if(pageResult.hasContent()) {
-			return pageResult.getContent();
-		} else {
-			throw new AppException("Page " + pageNumber + " is not existed", HttpStatus.NOT_FOUND);
-		}
+		return foodFunctionRepository.findAll(pageable);
 	}
 	
 	@Override

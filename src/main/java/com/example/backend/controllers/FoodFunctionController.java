@@ -11,6 +11,7 @@ import com.example.backend.services.ManufacturerService;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -187,10 +188,23 @@ public class FoodFunctionController {
 	
 	//TODO: get all food functions by page
 	@GetMapping("/foodFunctions/page/{pageNumber}")
-	ResponseEntity<List<FoodFunction>> getAllFoodFunctionsByPage(@PathVariable(value = "pageNumber") int pageNumber) {
-		List<FoodFunction> foodFunctions = foodFunctionService.getAllFoodFunction(pageNumber, 2);
-		return ResponseEntity.ok().body(foodFunctions);
+	public ResponseEntity<PageResponse<FoodFunction>> getAllFoodFunctionsByPage(@PathVariable(value = "pageNumber") int pageNumber) {
+		int pageSize = 2; // Số lượng mục trên mỗi trang
+		Page<FoodFunction> pageResult = foodFunctionService.getAllFoodFunction(pageNumber, pageSize);
+		List<FoodFunction> foodFunctions = pageResult.getContent();
+		PageResponse<FoodFunction> pageResponse = new PageResponse<>();
+		pageResponse.setContent(foodFunctions);
+		pageResponse.setTotalPages(pageResult.getTotalPages());
+		pageResponse.setTotalElements(pageResult.getTotalElements());
+		pageResponse.setCurrentPage(pageNumber);
+		pageResponse.setPageSize(pageSize);
+		return ResponseEntity.ok().body(pageResponse);
 	}
+//	@GetMapping("/foodFunctions/page/{pageNumber}")
+//	ResponseEntity<List<FoodFunction>> getAllFoodFunctionsByPage(@PathVariable(value = "pageNumber") int pageNumber) {
+//		List<FoodFunction> foodFunctions = foodFunctionService.getAllFoodFunction(pageNumber, 2);
+//		return ResponseEntity.ok().body(foodFunctions);
+//	}
 	
 	//TODO: get all image of food function
 	@GetMapping("/foodFunctions/{id}/images")

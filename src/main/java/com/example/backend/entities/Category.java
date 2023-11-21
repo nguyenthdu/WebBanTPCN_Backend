@@ -1,6 +1,5 @@
 package com.example.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +20,7 @@ public class Category {
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	@JsonIgnore
+//	@JsonIgnore
 	private Set<FoodFunction> foodFunctions;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
