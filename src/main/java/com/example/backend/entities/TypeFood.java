@@ -1,6 +1,5 @@
 package com.example.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +18,6 @@ public class TypeFood {
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "typeFood", cascade = CascadeType.ALL)
-	@JsonIgnore
+//	@JsonIgnore
 	private Set<Category> categories;
 }

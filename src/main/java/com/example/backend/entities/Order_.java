@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,17 +20,20 @@ public class Order_ {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User_ user;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<OrderItem> orderItems = new ArrayList<>();
+	//	@ToString.Exclude
+//	@EqualsAndHashCode.Exclude
+//	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+//	private Set<CartItem> cartItems = new HashSet<>();
+	@Column(name = "order_date")
 	private LocalDate orderDate;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", nullable = false)
 	private ShippingAddress shippingAddress;
+	@Column(name = "total_price")
 	private double totalPrice;
+	@Column(name = "total_item")
 	private int totalItem;
 	private int discount;
 }

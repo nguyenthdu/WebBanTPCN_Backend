@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ShippingAddressRepository extends JpaRepository<ShippingAddress,Long> {
-    ShippingAddress findShippingAddressById(Long idShippingAddress);
-
-    List<ShippingAddress> findShippingAddressesByUserId(Long id);
+public interface ShippingAddressRepository extends JpaRepository<ShippingAddress, Long> {
+	ShippingAddress findShippingAddressById(Long idShippingAddress);
+	
+	List<ShippingAddress> findAllByUserId(Long userId);
+	
+	ShippingAddress findShippingAddressByIdAndUserId(Long idShippingAddress, Long userId);
 }

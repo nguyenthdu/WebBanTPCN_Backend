@@ -51,8 +51,9 @@ public class CategoryController {
 	
 	//TODO: get category by id
 	@GetMapping("/categories/{categoryId}")
-	Category getCategory(@PathVariable Long categoryId) {
-		return categoryRepository.findCategoryById(categoryId);
+	ResponseEntity<Category> getCategory(@PathVariable Long categoryId) {
+		Category category = categoryService.findCategoryById(categoryId);
+		return ResponseEntity.ok().body(category);
 	}
 	
 	//TODO: Lấy ra danh sách các food function có trong 1 category
