@@ -1,7 +1,6 @@
 package com.example.backend.controllers;
 
 import com.example.backend.dtos.ErrorDto;
-import com.example.backend.entities.FoodFunction;
 import com.example.backend.entities.Manufacturer;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.ManufacturerRepository;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -75,12 +73,5 @@ public class ManufacturerController {
 			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
 		return ResponseEntity.ok(new ErrorDto("Delete Manufacturer Successfully with manufacturer id: " + manufacturerId, HttpStatus.OK.value(), Instant.now().toString()));
-	}
-	
-	//TODO: get all food functions by manufacturer
-	@GetMapping("/manufacturers/{manufacturerId}/foodFunctions")
-	ResponseEntity<Set<FoodFunction>> getAllFoodFunctionsByManufacturer(@PathVariable Long manufacturerId) {
-		Manufacturer manufacturer = manufacturerService.findManufacturerById(manufacturerId);
-		return ResponseEntity.ok(manufacturerService.getAllFoodFunctionByManufacturer(manufacturer));
 	}
 }

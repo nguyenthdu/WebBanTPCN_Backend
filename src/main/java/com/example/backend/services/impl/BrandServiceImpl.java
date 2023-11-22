@@ -4,16 +4,14 @@ import com.example.backend.entities.Brand;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.BrandRepository;
 import com.example.backend.services.BrandService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
 	private final BrandRepository brandRepository;
-	
-	public BrandServiceImpl(BrandRepository brandRepository) {
-		this.brandRepository = brandRepository;
-	}
 	
 	@Override
 	public Brand createBrand(Brand brand) {

@@ -1,9 +1,9 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -21,9 +21,4 @@ public class Manufacturer {
 	private String phoneNumber;
 	private String email;
 	private String description;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
-	@OneToMany(mappedBy = "manufacturer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-//	@JsonIgnore
-	private Set<FoodFunction> foodFunctions;
 }

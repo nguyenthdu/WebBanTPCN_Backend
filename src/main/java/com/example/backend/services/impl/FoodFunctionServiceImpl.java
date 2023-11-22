@@ -5,6 +5,7 @@ import com.example.backend.entities.ImageFile;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.FoodFunctionRepository;
 import com.example.backend.services.FoodFunctionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,12 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FoodFunctionServiceImpl implements FoodFunctionService {
 	private final FoodFunctionRepository foodFunctionRepository;
-	
-	public FoodFunctionServiceImpl(FoodFunctionRepository foodFunctionRepository) {
-		this.foodFunctionRepository = foodFunctionRepository;
-	}
 	
 	//Xử lý random code cho food function
 	public String randomCode() {

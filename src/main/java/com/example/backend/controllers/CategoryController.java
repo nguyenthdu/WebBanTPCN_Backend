@@ -2,7 +2,6 @@ package com.example.backend.controllers;
 
 import com.example.backend.dtos.ErrorDto;
 import com.example.backend.entities.Category;
-import com.example.backend.entities.FoodFunction;
 import com.example.backend.entities.TypeFood;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.CategoryRepository;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -54,16 +52,6 @@ public class CategoryController {
 	ResponseEntity<Category> getCategory(@PathVariable Long categoryId) {
 		Category category = categoryService.findCategoryById(categoryId);
 		return ResponseEntity.ok().body(category);
-	}
-	
-	//TODO: Lấy ra danh sách các food function có trong 1 category
-	@GetMapping("/categories/{categoryId}/foodFunction")
-	ResponseEntity<Set<FoodFunction>> getAllFoodFunctionByCategory(@PathVariable Long categoryId) {
-		Category category = categoryService.findCategoryById(categoryId);
-		if(category == null) {
-			return ResponseEntity.badRequest().body(null);
-		}
-		return ResponseEntity.ok(categoryService.getAllFoodFunctionByCategory(category));
 	}
 	
 	//TODO: update category

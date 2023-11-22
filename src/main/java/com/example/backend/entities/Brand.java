@@ -2,11 +2,7 @@ package com.example.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -20,9 +16,4 @@ public class Brand {
 	private String nameBrand;
 	private String description;
 	private String origin;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
-	@OneToMany(mappedBy = "brand", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	@Column(name = "food_function")
-	private Set<FoodFunction> foodFunctions;
 }

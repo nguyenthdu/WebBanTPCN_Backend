@@ -1,6 +1,5 @@
 package com.example.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,19 +41,19 @@ public class FoodFunction {
 	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "manufacturer_id", nullable = false)
-	@JsonIgnore
+//	@JsonIgnore
 	private Manufacturer manufacturer;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "brand_id", nullable = false)
-	@JsonIgnore
+//	@JsonIgnore
 	private Brand brand;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
-	@JsonIgnore
+//	@JsonIgnore
 	private Category category;
 	//    @OneToMany(mappedBy = "food_function", cascade = CascadeType.ALL,orphanRemoval = true)
 //    private List<Review> reviews = new ArrayList<>();

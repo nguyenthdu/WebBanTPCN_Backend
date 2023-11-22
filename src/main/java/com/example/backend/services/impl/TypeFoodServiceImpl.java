@@ -5,18 +5,16 @@ import com.example.backend.entities.TypeFood;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.TypeFoodRepository;
 import com.example.backend.services.TypeFoodService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class TypeFoodServiceImpl implements TypeFoodService {
 	private final TypeFoodRepository typeFoodRepository;
-	
-	public TypeFoodServiceImpl(TypeFoodRepository typeFoodRepository) {
-		this.typeFoodRepository = typeFoodRepository;
-	}
 	
 	//TODO: method create new type food
 	@Override
