@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -20,10 +22,10 @@ public class Order_ {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User_ user;
-	//	@ToString.Exclude
-//	@EqualsAndHashCode.Exclude
-//	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-//	private Set<CartItem> cartItems = new HashSet<>();
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<OrderItem> cartItems = new HashSet<>();
 	@Column(name = "order_date")
 	private LocalDate orderDate;
 	@ToString.Exclude

@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ShippingAddressImpl implements ShippingAddressService {
@@ -33,5 +35,17 @@ public class ShippingAddressImpl implements ShippingAddressService {
 	@Override
 	public ShippingAddress updateShippingAddress(ShippingAddress shippingAddress) {
 		return shippingAddressRepository.save(shippingAddress);
+	}
+	
+	@Override
+	public List<ShippingAddress> findAllShippingAddressByUserId(Long userId) {
+		return shippingAddressRepository.findAllByUserId(userId);
+	}
+	
+	@Override
+	public ShippingAddress findShippingAddressByIdAndUserId(Long idShippingAddress, Long userId) {
+		shippingAddressRepository.findById(idShippingAddress).orElseThrow(() -> new AppException("Id Shipping Address is not existed with id: " + idShippingAddress, HttpStatus.NOT_FOUND));
+		userRepository.findById(userId).orElseThrow(() -> new AppException("User is not existed with id: " + userId, HttpStatus.NOT_FOUND));
+		return shippingAddressRepository.findShippingAddressByIdAndUserId(idShippingAddress, userId);
 	}
 }

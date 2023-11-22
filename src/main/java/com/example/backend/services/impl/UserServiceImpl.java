@@ -25,8 +25,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 	private final UserRepository userRepository;
 	private final PasswordConfig passwordConfig;

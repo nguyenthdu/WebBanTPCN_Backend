@@ -75,11 +75,9 @@ public class ShippingAddressController {
 			@RequestParam("streetHouseNumber") String address,
 			@RequestParam("district") String district,
 			@RequestParam("city") String city,
-			@RequestParam("nation") String nation,
-			@RequestParam("userId") Long userId
+			@RequestParam("nation") String nation
 	) {
 		ShippingAddress shippingAddress = shippingAddressService.findShippingAddressById(shippingAddressId);
-		User_ user_ = userRepository.findById(userId).orElseThrow(() -> new AppException("User is not existed with id: " + userId, HttpStatus.NOT_FOUND));
 		try {
 			shippingAddress.setNameOfRecipient(receiverName);
 			shippingAddress.setPhoneOfRecipient(phoneNumber);
@@ -87,7 +85,6 @@ public class ShippingAddressController {
 			shippingAddress.setDistrict(district);
 			shippingAddress.setCity(city);
 			shippingAddress.setNation(nation);
-			shippingAddress.setUser(user_);
 			shippingAddressService.updateShippingAddress(shippingAddress);
 		} catch (AppException e) {
 			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
@@ -105,5 +102,22 @@ public class ShippingAddressController {
 			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
 		return ResponseEntity.ok(new ErrorDto("Delete Shipping Address Successfully with id: " + id, HttpStatus.OK.value(), Instant.now().toString()));
+	}
+	
+	//TODO: get all shippingAddresses for user
+	@GetMapping("/shippingAddresses/user/{userId}")
+	ResponseEntity<List<ShippingAddress>> getAllShippingAddressesForUser(@PathVariable Long userId) {
+		List<ShippingAddress> shippingAddresses = shippingAddressService.findAllShippingAddressByUserId(userId);
+		return ResponseEntity.ok(shippingAddresses);
+	}
+	
+	//TODO: get shippingAddress by id and user id
+	@GetMapping("/shippingAddressesOfUser")
+	ResponseEntity<ShippingAddress> getShippingAddressByIdAndUserId(
+			@RequestParam("shippingAddressId") Long id,
+			@RequestParam("userId") Long userId
+	) {
+		ShippingAddress shippingAddress = shippingAddressService.findShippingAddressByIdAndUserId(id, userId);
+		return ResponseEntity.ok(shippingAddress);
 	}
 }

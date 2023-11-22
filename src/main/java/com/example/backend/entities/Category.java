@@ -1,12 +1,11 @@
 package com.example.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -19,12 +18,8 @@ public class Category {
 	private String name;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
-	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-//	@JsonIgnore
-	private Set<FoodFunction> foodFunctions;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "type_food_id", nullable = false)
+	@JsonIgnore
 	private TypeFood typeFood;
 }

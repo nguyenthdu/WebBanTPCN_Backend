@@ -66,6 +66,7 @@ public class FoodFunctionController {
 			foodFunction.setDescription(description);
 			foodFunction.setPrice(price);
 			foodFunction.setQuantity(quantity);
+			//Xử lý lưu ảnh và giảm kích thước ảnh
 			List<ImageFile> imageFileList = new ArrayList<>();
 			for(MultipartFile file : imageFiles) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -211,5 +212,26 @@ public class FoodFunctionController {
 	ResponseEntity<List<ImageFile>> getAllImageFoodFunction(@PathVariable(value = "id") Long idFoodFunction) {
 		List<ImageFile> imageFiles = foodFunctionService.getAllImageFoodFunction(idFoodFunction);
 		return ResponseEntity.ok().body(imageFiles);
+	}
+	
+	//TODO: get all food by brand
+	@GetMapping("/foodFunctions/brand/{id}")
+	ResponseEntity<List<FoodFunction>> getAllFoodFunctionByBrand(@PathVariable(value = "id") Long brandId) {
+		List<FoodFunction> foodFunctions = foodFunctionRepository.findByBrand(brandService.findBrandById(brandId));
+		return ResponseEntity.ok().body(foodFunctions);
+	}
+	
+	//TODO: get all food by category
+	@GetMapping("/foodFunctions/category/{id}")
+	ResponseEntity<List<FoodFunction>> getAllFoodFunctionByCategory(@PathVariable(value = "id") Long categoryId) {
+		List<FoodFunction> foodFunctions = foodFunctionRepository.findByCategory(categoryService.findCategoryById(categoryId));
+		return ResponseEntity.ok().body(foodFunctions);
+	}
+	
+	//TODO: get all food by manufacturer
+	@GetMapping("/foodFunctions/manufacturer/{id}")
+	ResponseEntity<List<FoodFunction>> getAllFoodFunctionByManufacturer(@PathVariable(value = "id") Long manufacturerId) {
+		List<FoodFunction> foodFunctions = foodFunctionRepository.findByManufacturer(manufacturerService.findManufacturerById(manufacturerId));
+		return ResponseEntity.ok().body(foodFunctions);
 	}
 }
