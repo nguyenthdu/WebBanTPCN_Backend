@@ -5,6 +5,9 @@ import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.ManufacturerRepository;
 import com.example.backend.services.ManufacturerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +37,11 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	@Override
 	public Manufacturer updateManufacturer(Manufacturer manufacturer) {
 		return manufacturerRepository.save(manufacturer);
+	}
+	
+	@Override
+	public Page<Manufacturer> getManufacturers(int pageNumber, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+		return manufacturerRepository.findAll(pageable);
 	}
 }

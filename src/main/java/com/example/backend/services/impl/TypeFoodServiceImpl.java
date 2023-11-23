@@ -1,15 +1,15 @@
 package com.example.backend.services.impl;
 
-import com.example.backend.entities.Category;
 import com.example.backend.entities.TypeFood;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.TypeFoodRepository;
 import com.example.backend.services.TypeFoodService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +30,6 @@ public class TypeFoodServiceImpl implements TypeFoodService {
 	public TypeFood findTypeFoodById(Long typeFoodId) {
 		return typeFoodRepository.findById(typeFoodId).orElseThrow(() -> new AppException("Id Type Food is not existed with id: " + typeFoodId, HttpStatus.NOT_FOUND));
 	}
-//	@Override
-//	public TypeFood findTypeFoodByNameTypeFood(String nameTypeFood) {
-//		return typeFoodRepository.findTypeFoodByName(nameTypeFood);
-//	}
 	//TODO: method delete uses by id
 	
 	@Override
@@ -48,7 +44,8 @@ public class TypeFoodServiceImpl implements TypeFoodService {
 	}
 	
 	@Override
-	public Set<Category> getAllCategoriesByTypeFood(TypeFood typeFood) {
-		return typeFood.getCategories();
+	public Page<TypeFood> getTypeFoods(int pageNumber, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+		return typeFoodRepository.findAll(pageable);
 	}
 }

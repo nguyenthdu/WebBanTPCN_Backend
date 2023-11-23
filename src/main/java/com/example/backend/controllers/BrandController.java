@@ -2,11 +2,13 @@ package com.example.backend.controllers;
 
 import com.example.backend.dtos.ErrorDto;
 import com.example.backend.entities.Brand;
+import com.example.backend.entities.PageResponse;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.BrandRepository;
 import com.example.backend.services.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -74,5 +76,20 @@ public class BrandController {
 			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
 		return ResponseEntity.ok(new ErrorDto("Delete Brand Successfully with brand id: " + brand.getId(), HttpStatus.OK.value(), Instant.now().toString()));
+	}
+	
+	//TODO: get brands by page
+	@GetMapping("/brands/page/{pageNumber}")
+	public ResponseEntity<PageResponse<Brand>> getBrandsByPage(@PathVariable(value = "pageNumber") int pageNumber) {
+		int pageSize = 10; // Số lượng mục trên mỗi trang
+		Page<Brand> pageResult = brandService.getBrands(pageNumber, pageSize);
+		List<Brand> brands = pageResult.getContent();
+		PageResponse<Brand> pageResponse = new PageResponse<>();
+		pageResponse.setContent(brands);
+		pageResponse.setTotalPages(pageResult.getTotalPages());
+		pageResponse.setTotalElements(pageResult.getTotalElements());
+		pageResponse.setCurrentPage(pageNumber);
+		pageResponse.setPageSize(pageSize);
+		return ResponseEntity.ok().body(pageResponse);
 	}
 }

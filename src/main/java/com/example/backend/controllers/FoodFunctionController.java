@@ -190,7 +190,7 @@ public class FoodFunctionController {
 	//TODO: get all food functions by page
 	@GetMapping("/foodFunctions/page/{pageNumber}")
 	public ResponseEntity<PageResponse<FoodFunction>> getAllFoodFunctionsByPage(@PathVariable(value = "pageNumber") int pageNumber) {
-		int pageSize = 2; // Số lượng mục trên mỗi trang
+		int pageSize = 10; // Số lượng mục trên mỗi trang
 		Page<FoodFunction> pageResult = foodFunctionService.getAllFoodFunction(pageNumber, pageSize);
 		List<FoodFunction> foodFunctions = pageResult.getContent();
 		PageResponse<FoodFunction> pageResponse = new PageResponse<>();

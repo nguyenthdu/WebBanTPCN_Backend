@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypeFoodRepository extends JpaRepository<TypeFood, Long> {
-	TypeFood findTypeFoodById(Long typeFoodId);
-	
 	TypeFood findTypeFoodByName(String nameTypeFood);
 }

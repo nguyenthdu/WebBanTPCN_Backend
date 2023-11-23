@@ -3,7 +3,7 @@ package com.example.backend.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class TypeFood {
 	private String name;
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "typeFood", cascade = CascadeType.ALL)
 //	@JsonIgnore
-	private Set<Category> categories;
+	private List<Category> category;
 }

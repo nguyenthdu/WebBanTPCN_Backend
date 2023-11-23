@@ -1,9 +1,7 @@
 package com.example.backend.services;
 
-import com.example.backend.entities.Category;
 import com.example.backend.entities.TypeFood;
-
-import java.util.Set;
+import org.springframework.data.domain.Page;
 
 public interface TypeFoodService {
 	TypeFood createTypeFood(TypeFood typeFood);
@@ -14,7 +12,7 @@ public interface TypeFoodService {
 	void deleteTypeFoodById(Long typeFoodId);
 	
 	TypeFood updateTypeFood(TypeFood typeFood);
-	
 	//Get all categories by type food
-	Set<Category> getAllCategoriesByTypeFood(TypeFood typeFood);
+	
+	Page<TypeFood> getTypeFoods(int pageNumber, int pageSize);
 }
