@@ -1,20 +1,20 @@
 package com.example.backend.controllers;
 
 import com.example.backend.dtos.ErrorDto;
-import com.example.backend.entities.Category;
+import com.example.backend.entities.PageResponse;
 import com.example.backend.entities.TypeFood;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.TypeFoodRepository;
 import com.example.backend.services.TypeFoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -48,13 +48,6 @@ public class TypeFoodController {
 		return ResponseEntity.ok(typeFood);
 	}
 	
-	//TODO:  get all list category by type food
-	@GetMapping("/typeFoods/categories/{typeFoodId}")
-	ResponseEntity<Set<Category>> getAllCategoriesByTypeFood(@PathVariable Long typeFoodId) {
-		TypeFood typeFood = typeFoodService.findTypeFoodById(typeFoodId);
-		return ResponseEntity.ok(typeFoodService.getAllCategoriesByTypeFood(typeFood));
-	}
-	
 	//TODO: update typeFood
 	@PutMapping("/typeFoods")
 	ResponseEntity<ErrorDto> updateTypeFood(@RequestBody TypeFood typeFood) {
@@ -77,5 +70,19 @@ public class TypeFoodController {
 			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
 		return ResponseEntity.ok(new ErrorDto("Delete TypeFood Successfully with id: " + typeFood.getId(), HttpStatus.OK.value(), Instant.now().toString()));
+	}
+	
+	@GetMapping("/typeFoods/page/{pageNumber}")
+	public ResponseEntity<PageResponse<TypeFood>> getAllFoodFunctionsByPage(@PathVariable(value = "pageNumber") int pageNumber) {
+		int pageSize = 10; // Số lượng mục trên mỗi trang
+		Page<TypeFood> pageResult = typeFoodService.getTypeFoods(pageNumber, pageSize);
+		List<TypeFood> typeFoods = pageResult.getContent();
+		PageResponse<TypeFood> pageResponse = new PageResponse<>();
+		pageResponse.setContent(typeFoods);
+		pageResponse.setTotalPages(pageResult.getTotalPages());
+		pageResponse.setTotalElements(pageResult.getTotalElements());
+		pageResponse.setCurrentPage(pageNumber);
+		pageResponse.setPageSize(pageSize);
+		return ResponseEntity.ok().body(pageResponse);
 	}
 }

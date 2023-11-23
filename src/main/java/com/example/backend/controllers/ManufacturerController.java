@@ -2,11 +2,13 @@ package com.example.backend.controllers;
 
 import com.example.backend.dtos.ErrorDto;
 import com.example.backend.entities.Manufacturer;
+import com.example.backend.entities.PageResponse;
 import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.ManufacturerRepository;
 import com.example.backend.services.ManufacturerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,5 +75,20 @@ public class ManufacturerController {
 			return ResponseEntity.badRequest().body(new ErrorDto(e.getMessage(), e.getStatus(), e.getTimestamp()));
 		}
 		return ResponseEntity.ok(new ErrorDto("Delete Manufacturer Successfully with manufacturer id: " + manufacturerId, HttpStatus.OK.value(), Instant.now().toString()));
+	}
+	
+	//TODO: get Manufacturer by page
+	@GetMapping("/manufacturers/page/{pageNumber}")
+	public ResponseEntity<PageResponse<Manufacturer>> getAllFoodFunctionsByPage(@PathVariable(value = "pageNumber") int pageNumber) {
+		int pageSize = 10; // Số lượng mục trên mỗi trang
+		Page<Manufacturer> pageResult = manufacturerService.getManufacturers(pageNumber, pageSize);
+		List<Manufacturer> manufacturers = pageResult.getContent();
+		PageResponse<Manufacturer> pageResponse = new PageResponse<>();
+		pageResponse.setContent(manufacturers);
+		pageResponse.setTotalPages(pageResult.getTotalPages());
+		pageResponse.setTotalElements(pageResult.getTotalElements());
+		pageResponse.setCurrentPage(pageNumber);
+		pageResponse.setPageSize(pageSize);
+		return ResponseEntity.ok().body(pageResponse);
 	}
 }

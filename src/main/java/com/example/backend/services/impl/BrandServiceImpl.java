@@ -5,6 +5,9 @@ import com.example.backend.exceptions.AppException;
 import com.example.backend.repositories.BrandRepository;
 import com.example.backend.services.BrandService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +31,6 @@ public class BrandServiceImpl implements BrandService {
 	
 	@Override
 	public Brand findBrandById(Long idBrand) {
-		//nếu không tìm thấy thì báo lõi:
 		return brandRepository.findById(idBrand).orElseThrow(() -> new AppException("Id Brand is not existed with id: " + idBrand, HttpStatus.NOT_FOUND));
 	}
 	
@@ -40,5 +42,11 @@ public class BrandServiceImpl implements BrandService {
 	@Override
 	public Brand updateBrand(Brand brand) {
 		return brandRepository.save(brand);
+	}
+	
+	@Override
+	public Page<Brand> getBrands(int pageNumber, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+		return brandRepository.findAll(pageable);
 	}
 }

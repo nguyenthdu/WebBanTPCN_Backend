@@ -12,7 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 //TODO: chịu trách nhiệm xác định cách bảo mật và quản lý quyền truy cập trong ứng dụng.
-//TODO: chịu trách nhiệm xác định cách bảo mật và quản lý quyền truy cập trong ứng dụng.
 @RequiredArgsConstructor
 @Configuration//Đánh dấu lớp này là một lớp cấu hình Spring.
 @EnableWebSecurity// Đánh dấu rằng Spring Security sẽ được kích hoạt và sử dụng trong ứng dụng
