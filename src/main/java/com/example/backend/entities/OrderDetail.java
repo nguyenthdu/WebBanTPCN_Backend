@@ -1,28 +1,23 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "order_item")
-public class OrderItem {
+@Table(name = "order_details")
+public class OrderDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id", nullable = false)
 	private Order_ order;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "food_function_id", nullable = false)
 	private FoodFunction foodFunction;
-	private int quantity;
 }
