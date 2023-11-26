@@ -155,6 +155,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		}
 		return cartItem;
 	}
+	
+	@Override
+	public void clearShoppingCart(Long id) {
+		ShoppingCart shoppingCart = shoppingCartRepository.findById(id)
+				.orElseThrow(() -> new AppException("Not found shopping cart with id: " + id, HttpStatus.NOT_FOUND));
+		for(CartItem cartItem : shoppingCart.getCartItems()) {
+			cartItemRepository.deleteById(cartItem.getId());
+		}
+		shoppingCart.getCartItems().clear();
+		shoppingCart.setTotalItem(0);
+		shoppingCart.setTotalPrice(0);
+		shoppingCartRepository.save(shoppingCart);
+	}
 	//Method calculate total price
 //	private double totalPrice(Set<CartItem> cartItems) {
 //		double totalPrice = 0;
@@ -267,16 +280,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		} else {
 			throw new AppException("Not found user with id: " + userId + " in database", HttpStatus.NOT_FOUND);
 		}
-	}
-	
-	@Override
-	public void clearShoppingCart(Long id) {
-		ShoppingCart shoppingCart = shoppingCartRepository.findById(id)
-				.orElseThrow(() -> new AppException("Not found shopping cart with id: " + id, HttpStatus.NOT_FOUND));
-		shoppingCart.getCartItems().clear();
-		shoppingCart.setTotalItem(0);
-		shoppingCart.setTotalPrice(0);
-		shoppingCartRepository.save(shoppingCart);
 	}
 	
 	private ShoppingCart createCartForUser(User_ user) {

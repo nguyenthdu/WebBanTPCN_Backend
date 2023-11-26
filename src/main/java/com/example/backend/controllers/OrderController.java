@@ -33,7 +33,7 @@ public class OrderController {
 	//TODO: checkout
 	// Checkout và tạo đơn hàng mới
 	@PostMapping("/checkout")
-	public ResponseEntity<ErrorDto> checkout(@RequestParam("`shippingAddressId`") Long shippingAddressId, Principal principal) {
+	public ResponseEntity<ErrorDto> checkout(@RequestParam("shippingAddressId") Long shippingAddressId, Principal principal) {
 		try {
 			if(principal != null) {
 				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -43,7 +43,6 @@ public class OrderController {
 					// Lấy đối tượng ShippingAddress từ ID
 					ShippingAddress shippingAddress = shippingAddressService.findShippingAddressById(shippingAddressId);
 					Order_ order = orderService.save(shoppingCart, shippingAddress);
-					// Bạn có thể thực hiện bất kỳ xử lý nào khác cần thiết ở đây (ví dụ: thanh toán, gửi email xác nhận, vv.)
 					return ResponseEntity.ok(new ErrorDto("Order placed successfully with order ID: " + order.getId(), HttpStatus.OK.value(), Instant.now().toString()));
 				}
 			}

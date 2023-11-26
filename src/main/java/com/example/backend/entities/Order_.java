@@ -26,7 +26,7 @@ public class Order_ {
 	@Column(name = "total_item")
 	private int quantity;
 	private int discount;
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", nullable = false)
 	private ShippingAddress shippingAddress;
 	@ManyToOne(fetch = FetchType.EAGER)
