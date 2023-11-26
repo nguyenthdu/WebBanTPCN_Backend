@@ -1,12 +1,16 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -14,6 +18,7 @@ import java.util.List;
 public class FoodFunction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "food_function_id")
 	private Long id;
 	private String code;
 	@Column(name = "name_food")
@@ -22,7 +27,7 @@ public class FoodFunction {
 	private String description;
 	private double price;
 	private int quantity;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "image_id")
 	private List<ImageFile> imageFiles = new ArrayList<>();
 	@Column(columnDefinition = "text")
@@ -37,23 +42,14 @@ public class FoodFunction {
 	private int expiryDate;
 	private boolean status = true;
 	private int discount = 0;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "manufacturer_id", nullable = false)
-//	@JsonIgnore
 	private Manufacturer manufacturer;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "brand_id", nullable = false)
-//	@JsonIgnore
 	private Brand brand;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
-//	@JsonIgnore
 	private Category category;
 	//    @OneToMany(mappedBy = "food_function", cascade = CascadeType.ALL,orphanRemoval = true)
 //    private List<Review> reviews = new ArrayList<>();

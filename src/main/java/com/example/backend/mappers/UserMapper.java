@@ -13,7 +13,7 @@ import org.mapstruct.Mapping;
  *  */
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-	UserDto toUserDto(User_ user);
+	UserDto toUserDto(User_ user);// chuyển đổi user thành userDto
 	
 	@Mapping(target = "password", ignore = true)
 	User_ signUpToUser(SignUpDto signUpDto);

@@ -28,5 +28,6 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);//Phản hồi daạng json
 //        OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDto("Unauthorized path"));// Sử dụng một đối tượng ObjectMapper để chuyển đối tượng ErrorDto thành dữ liệu JSON và ghi vào đầu ra của phản hồi.
 		OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDto("Unauthorized path", HttpServletResponse.SC_UNAUTHORIZED, "timestamp"));//
+		//Xuất thông báo khi token hết hạn
 	}
 }

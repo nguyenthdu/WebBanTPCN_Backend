@@ -78,6 +78,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 	
 	@Override
+	public User_ findByUsername(String username) {
+		return userRepository.findByUsername(username)
+				.orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+	}
+	
+	@Override
 	public UserDto findByLogin(String login) {
 		User_ user = userRepository.findByUsername(login)
 				.orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));

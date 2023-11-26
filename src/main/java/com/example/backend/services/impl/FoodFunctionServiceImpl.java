@@ -1,8 +1,10 @@
 package com.example.backend.services.impl;
 
+import com.example.backend.dtos.FoodFunctionDto;
 import com.example.backend.entities.FoodFunction;
 import com.example.backend.entities.ImageFile;
 import com.example.backend.exceptions.AppException;
+import com.example.backend.mappers.FoodMapper;
 import com.example.backend.repositories.FoodFunctionRepository;
 import com.example.backend.services.FoodFunctionService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FoodFunctionServiceImpl implements FoodFunctionService {
 	private final FoodFunctionRepository foodFunctionRepository;
+	private final FoodMapper foodMapper;
 	
 	//Xử lý random code cho food function
 	public String randomCode() {
@@ -72,6 +75,14 @@ public class FoodFunctionServiceImpl implements FoodFunctionService {
 	public FoodFunction findFoodFunctionById(Long idFoodFunction) {
 		return foodFunctionRepository.findById(idFoodFunction)
 				.orElseThrow(() -> new AppException("Not found food function with id: " + idFoodFunction, HttpStatus.NOT_FOUND));
+	}
+	
+	@Override
+	public FoodFunctionDto findById(Long foodFunctionId) {
+		FoodFunction foodFunction = foodFunctionRepository.findById(foodFunctionId)
+				.orElseThrow(() -> new AppException("Not found food function with id: " + foodFunctionId, HttpStatus.NOT_FOUND));
+		//chuyển đổi food function thành food function dto
+		return foodMapper.toFoodFunctionDto(foodFunction);
 	}
 	
 	@Override

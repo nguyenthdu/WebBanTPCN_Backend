@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.dtos.FoodFunctionDto;
 import com.example.backend.entities.FoodFunction;
 import com.example.backend.entities.ImageFile;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ public interface FoodFunctionService {
 	FoodFunction findFoodFunctionByNameFood(String nameFoodFunction);
 	
 	FoodFunction findFoodFunctionById(Long idFoodFunction);
+	
+	FoodFunctionDto findById(Long foodFunctionId);
 	
 	void deleteFoodFunctionById(Long foodFunctionId);
 	

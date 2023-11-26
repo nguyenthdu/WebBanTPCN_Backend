@@ -15,5 +15,4 @@ public class PageResponse<T> {
 	private long totalElements;
 	private int currentPage;
 	private int pageSize;
-	// Getters and setters
 }

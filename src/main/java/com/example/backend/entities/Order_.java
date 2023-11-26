@@ -1,41 +1,37 @@
 package com.example.backend.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "orders")
 public class Order_ {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", nullable = false)
-	private User_ user;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<OrderItem> cartItems = new HashSet<>();
 	@Column(name = "order_date")
 	private LocalDate orderDate;
-	@ToString.Exclude
-	@EqualsAndHashCode.Exclude
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", nullable = false)
-	private ShippingAddress shippingAddress;
 	@Column(name = "total_price")
 	private double totalPrice;
 	@Column(name = "total_item")
-	private int totalItem;
+	private int quantity;
 	private int discount;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", nullable = false)
+	private ShippingAddress shippingAddress;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User_ user;
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private List<OrderDetail> orderDetails;
 }
