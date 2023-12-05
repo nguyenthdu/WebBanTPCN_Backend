@@ -39,6 +39,8 @@ public class User_ {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Set<Order_> orders;
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//	private LocalDate yearOfBirth;
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
 //    private List<Rating> ratings = new ArrayList<>();
