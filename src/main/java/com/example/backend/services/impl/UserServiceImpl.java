@@ -10,6 +10,7 @@ import com.example.backend.exceptions.AppException;
 import com.example.backend.mappers.UserMapper;
 import com.example.backend.repositories.UserRepository;
 import com.example.backend.services.UserService;
+import com.example.backend.validators.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private final UserRepository userRepository;
 	private final PasswordConfig passwordConfig;
 	private final UserMapper userMapper;
+	private final UserValidator userValidator;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -65,6 +67,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	@Override
 	public UserDto register(SignUpDto userDto) {
+		var error = userValidator.validateUser(userMapper.signUpToUser(userDto));
+		if(!error.isEmpty()) {
+			throw new AppException(error, HttpStatus.BAD_REQUEST);
+		}
 		Optional<User_> optionalUser = userRepository.findByUsername(userDto.username());
 		if(optionalUser.isPresent()) {
 			throw new AppException("Username already exists", HttpStatus.BAD_REQUEST);
